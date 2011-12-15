@@ -16,6 +16,13 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_DOSIRQ
 
 #include "dosirq.h"
 
@@ -317,5 +324,5 @@ void irq_detect_clear()
 	if (oldirq)
 		enable();
 }
-
+#endif
 /* ex:set ts=4: */

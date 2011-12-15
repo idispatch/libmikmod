@@ -16,6 +16,13 @@
     License along with this library; if not, write to the Free
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_DMA
 
 #include "dosdma.h"
 
@@ -204,5 +211,5 @@ void dma_start(dma_buffer * buffer, unsigned long count, unsigned char mode)
 	if (old_ints)
 		enable();
 }
-
+#endif
 /* ex:set ts=4: */

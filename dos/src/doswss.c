@@ -32,6 +32,15 @@
 
 */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_WSS
+
+
 #include <stdlib.h>
 #include <dpmi.h>
 #include <go32.h>
@@ -573,4 +582,5 @@ void wss_level(int level)
 	__wss_outreg(WSSR_MASTER_R, wss.curlevel);
 }
 
+#endif
 /* ex:set ts=4: */

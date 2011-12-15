@@ -31,6 +31,13 @@
 	Written by Andrew Zabolotny <bit@eltech.ru>
 
 */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_SB2
 
 #include <stdlib.h>
 #include <dpmi.h>
@@ -554,5 +561,5 @@ void sb_query_dma(unsigned int *dma_size, unsigned int *dma_pos)
 	}
 	*dma_pos = *dma_size - dma_left;
 }
-
+#endif
 /* ex:set ts=4: */

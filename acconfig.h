@@ -27,6 +27,8 @@
 #undef DRV_NAS
 /* Define if the Open Sound System driver is compiled */
 #undef DRV_OSS
+/* Define if the OS/2 driver is compiled */
+#undef DRV_OS2
 /* Define if the Linux SAM9407 driver is compiled */
 #undef DRV_SAM9407
 /* Define if the SGI audio driver is compiled */
@@ -40,6 +42,8 @@
 #undef DRV_OSX
 /* Define this if you want the Carbon Mac Audio driver */
 #undef DRV_MAC
+/* Define this if you want the DOS WSS driver */
+#undef DRV_WSS
 
 /* Define if you want a debug version of the library */
 #undef MIKMOD_DEBUG

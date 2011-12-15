@@ -18,6 +18,7 @@
 #define MikMod_Sleep(ns) Sleep(ns / 1000)
 #endif
 
+#if 0
 SAMPLE *Load(char *fn)
 {	
 	char *file_data;
@@ -132,3 +133,4 @@ main()
 
     MikMod_Exit();
 }
+#endif

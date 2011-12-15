@@ -70,7 +70,7 @@ void* MikMod_realloc(void *data, size_t size)
 		return _aligned_realloc(data, size, ALIGN_STRIDE);
 #else
 		unsigned char *newPtr = (unsigned char *)realloc(get_pointer(data), size + ALIGN_STRIDE + sizeof(void*));
-		return align_pointer(newPtr, ALIGN_STRIDE);
+		return align_pointer((char*)newPtr, ALIGN_STRIDE);
 #endif
 	}
 	return MikMod_malloc(size);

@@ -34,7 +34,7 @@
 #include <unistd.h>
 #endif
 
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 #include <pwd.h>
 #include <sys/stat.h>
 #endif
@@ -905,7 +905,7 @@ CHAR *MD_GetAtom(CHAR *atomname,CHAR *cmdline,BOOL implicit)
 	return ret;
 }
 
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 
 /*========== Posix helper functions */
 

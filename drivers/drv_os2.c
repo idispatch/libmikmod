@@ -32,6 +32,13 @@
 	Improvements by Andrew Zabolotny <bit@eltech.ru>
 
 */
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_OS2
 
 #define INCL_DOS
 #define INCL_OS2MM
@@ -370,5 +377,6 @@ MIKMODAPI MDRIVER drv_os2 = {
 	VC_VoiceGetPosition,
 	VC_VoiceRealVolume
 };
+#endif
 
 /* ex:set ts=4: */

@@ -25,6 +25,13 @@
   Driver for GUS cards under DOS
 
 ==============================================================================*/
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "mikmod_internals.h"
+
+#ifdef DRV_GUS
 
 /*
 
@@ -1867,5 +1874,5 @@ int gus_dma_usage (int use)
 	gus.transfer = __gus_transfer_io;
 	return 0;
 }
-
+#endif
 /* ex:set ts=4: */

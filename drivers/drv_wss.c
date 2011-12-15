@@ -36,6 +36,8 @@
 #include "config.h"
 #endif
 
+#include "mikmod_internals.h"
+
 #ifdef DRV_WSS
 
 #ifdef HAVE_UNISTD_H
@@ -45,7 +47,6 @@
 #include <fcntl.h>
 #endif
 
-#include "mikmod_internals.h"
 
 #include "doswss.h"
 

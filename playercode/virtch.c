@@ -105,7 +105,7 @@ typedef struct VINFO {
 
 static	SWORD **Samples;
 static	VINFO *vinf=NULL,*vnf;
-static	long tickleft,samplesthatfit,vc_memory=0;
+static	long tickleft,samplesthatfit;
 static	int vc_softchn;
 static	SLONGLONG idxsize,idxlpos,idxlend;
 static	SLONG *vc_tickbuf=NULL;

@@ -229,8 +229,8 @@ static BOOL SL_LoadInternal(void* buffer,UWORD infmt,UWORD outfmt,int scalefacto
 	int stodo,t,u;
 
 	int result,c_block=0;	/* compression bytes until next block */
-	ITPACK status;
-	UWORD incnt;
+	ITPACK status = {0};
+	UWORD incnt = 0;
 
 	while(length) {
 		stodo=(length<SLBUFSIZE)?length:SLBUFSIZE;

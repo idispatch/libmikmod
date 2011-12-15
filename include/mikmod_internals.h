@@ -637,7 +637,7 @@ extern void VC_SetupPointers(void);
 extern BOOL VC1_Init(void);
 extern BOOL VC2_Init(void);
 
-#if defined(unix) || defined(__APPLE__) && defined(__MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__)
 /* POSIX helper functions */
 extern BOOL MD_Access(CHAR *);
 extern BOOL MD_DropPrivileges(void);

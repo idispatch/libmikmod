@@ -13,14 +13,15 @@
  * It could be made working on m68k (hp9000s300) series, but my HP-UX 5.5
  * disk is dead and I don't have the system tapes...
  */
+#ifdef HAVE_CONFIG_H
+#include "config.h"	/* const */
+#endif
+
+#ifdef DRV_HP
 
 #include <dl.h>
 #include <malloc.h>
 #include <string.h>
-
-#ifdef HAVE_CONFIG_H
-#include "config.h"	/* const */
-#endif
 
 #include "dlfcn.h"
 
@@ -60,5 +61,5 @@ void *dlsym(void *handle, const char *sym)
 			return address;
 	return NULL;
 }
-
+#endif
 /* ex:set ts=4: */

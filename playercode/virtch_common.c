@@ -414,7 +414,7 @@ SWORD VC1_SampleLoad(struct SAMPLOAD* sload,int type)
 
 ULONG VC1_SampleSpace(int type)
 {
-	return vc_memory;
+	return 0;
 }
 
 ULONG VC1_SampleLength(int type,SAMPLE* s)
