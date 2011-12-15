@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: mdreg.c,v 1.2 2005/03/30 19:11:13 realtech Exp $
 
   Routine for registering all drivers in libmikmod for the current platform.
 
@@ -99,10 +98,13 @@ void _mm_registeralldrivers(void)
 #ifdef DRV_SB
 	_mm_registerdriver(&drv_sb);
 #endif
-	
+#ifdef DRV_RAW
 	/* Register disk writers */
 	_mm_registerdriver(&drv_raw);
+#endif
+#ifdef DRV_WAV
 	_mm_registerdriver(&drv_wav);
+#endif
 #ifdef DRV_AIFF
 	_mm_registerdriver(&drv_aiff);
 #endif
@@ -111,7 +113,8 @@ void _mm_registeralldrivers(void)
 #ifdef DRV_PIPE
 	_mm_registerdriver(&drv_pipe);
 #endif
-#ifndef macintosh
+#if defined macintosh || defined __QNXNTO__
+#else
 	_mm_registerdriver(&drv_stdout);
 #endif
 

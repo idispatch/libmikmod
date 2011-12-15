@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_xm.c,v 1.5 2008/02/29 18:49:03 denis111 Exp $
 
   Fasttracker (XM) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_XM
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -825,5 +825,5 @@ MIKMODAPI MLOADER load_xm={
 	XM_Cleanup,
 	XM_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

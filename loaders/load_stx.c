@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_stx.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   STMIK 0.2 (STX) module loader
 
@@ -36,6 +35,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_STX
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -435,5 +435,5 @@ MIKMODAPI MLOADER load_stx={
 	STX_Cleanup,
 	STX_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: drv_wss.c,v 1.2 2005/03/30 19:09:11 realtech Exp $
 
   Driver for Windows Sound System under DOS
 

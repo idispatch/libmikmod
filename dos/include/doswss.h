@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: doswss.h,v 1.2 2005/03/30 19:09:10 realtech Exp $
 
   Windows Sound System and compatible soundcards definitions
 

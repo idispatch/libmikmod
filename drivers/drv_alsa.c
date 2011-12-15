@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: drv_alsa.c,v 1.3 2007/12/03 20:50:22 denis111 Exp $
 
   Driver for Advanced Linux Sound Architecture (ALSA)
 

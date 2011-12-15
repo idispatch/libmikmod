@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_ult.c,v 1.3 2010/01/12 03:30:32 realtech Exp $
 
   Ultratracker (ULT) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_ULT
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -335,5 +335,5 @@ MIKMODAPI MLOADER load_ult={
 	ULT_LoadTitle
 };
 
-
+#endif
 /* ex:set ts=4: */

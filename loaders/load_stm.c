@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_stm.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Screamtracker 2 (STM) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_STM
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -370,5 +370,5 @@ MIKMODAPI MLOADER load_stm={
 	STM_LoadTitle
 };
 
-
+#endif
 /* ex:set ts=4: */

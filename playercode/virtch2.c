@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: virtch2.c,v 1.4 2005/04/07 19:57:39 realtech Exp $
 
   High-quality sample mixing routines, using a 32 bits mixing buffer,
   interpolation, and sample smoothing to improve sound quality and remove

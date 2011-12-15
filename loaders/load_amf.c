@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_amf.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   DMP Advanced Module Format loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_AMF
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -565,5 +565,5 @@ MIKMODAPI MLOADER load_amf={
 	AMF_Cleanup,
 	AMF_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: drv_osx.c,v 1.3 2005/05/18 13:42:15 raphassenat Exp $
 
   Driver for output via CoreAudio [MacOS X and Darwin].
 

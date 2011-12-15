@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_okt.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Oktalyzer (OKT) module loader
 
@@ -37,6 +36,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_OKT
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -456,5 +456,5 @@ MIKMODAPI MLOADER load_okt = {
 	NULL,
 	OKT_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

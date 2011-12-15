@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_m15.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   15 instrument MOD loader
   Also supports Ultimate Sound Tracker (old M15 format)
@@ -31,6 +30,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_M15
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -501,5 +501,5 @@ MIKMODAPI MLOADER load_m15={
 	M15_Cleanup,
 	M15_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

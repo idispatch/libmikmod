@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: mloader.c,v 1.3 2005/04/07 19:57:39 realtech Exp $
 
   These routines are used to access the available module loaders
 
@@ -68,7 +67,7 @@ MIKMODAPI CHAR* MikMod_InfoLoader(void)
 	if(len)
 		if((list=MikMod_malloc(len*sizeof(CHAR)))) {
 			list[0]=0;
-			/* list all registered module loders */
+			/* list all registered module loaders */
 			for(l=firstloader;l;l=l->next)
 				sprintf(list,(l->next)?"%s%s\n":"%s%s",list,l->version);
 		}
@@ -83,8 +82,9 @@ void _mm_registerloader(MLOADER* ldr)
 	if(cruise) {
 		while(cruise->next) cruise = cruise->next;
 		cruise->next=ldr;
-	} else
-		firstloader=ldr; 
+	} else {
+		firstloader=ldr;
+	}
 }
 
 MIKMODAPI void MikMod_RegisterLoader(struct MLOADER* ldr)

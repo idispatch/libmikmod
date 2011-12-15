@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_mtm.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   MTM module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_MTM
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -281,5 +281,5 @@ MIKMODAPI MLOADER load_mtm={
 	MTM_Cleanup,
 	MTM_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

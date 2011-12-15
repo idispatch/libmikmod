@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_669.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Composer 669 module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_669
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -364,5 +364,5 @@ MIKMODAPI MLOADER load_669={
 	S69_Cleanup,
 	S69_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

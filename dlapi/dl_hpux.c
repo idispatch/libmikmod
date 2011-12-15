@@ -1,6 +1,5 @@
 /*==============================================================================
 
-  $Id: dl_hpux.c,v 1.2 2005/03/30 19:09:09 realtech Exp $
 
   simple dlopen()-like implementation above HP-UX shl_xxx() API
 

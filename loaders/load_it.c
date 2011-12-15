@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_it.c,v 1.4 2010/01/12 03:30:32 realtech Exp $
 
   Impulse tracker (IT) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_IT
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -1009,5 +1009,5 @@ MIKMODAPI MLOADER load_it={
 	IT_Cleanup,
 	IT_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

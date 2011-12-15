@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: mdriver.c,v 1.4 2007/12/03 20:59:05 denis111 Exp $
 
   These routines are used to access the available soundcard drivers.
 

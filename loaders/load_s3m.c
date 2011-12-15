@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_s3m.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Screamtracker (S3M) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_S3M
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -466,5 +466,5 @@ MIKMODAPI MLOADER load_s3m={
 	S3M_Cleanup,
 	S3M_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

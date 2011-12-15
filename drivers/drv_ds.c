@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: drv_ds.c,v 1.3 2005/04/12 16:19:38 raphassenat Exp $
 
   Driver for output on win32 platforms using DirectSound
 

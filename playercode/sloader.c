@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: sloader.c,v 1.3 2007/12/06 17:46:08 denis111 Exp $
 
   Routines for loading samples. The sample loader utilizes the routines
   provided by the "registered" sample loader.

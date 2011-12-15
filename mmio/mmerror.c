@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: mmerror.c,v 1.2 2005/03/30 19:10:41 realtech Exp $
 
   Error handling functions.
   Register an error handler with _mm_RegisterErrorHandler() and you're all set.

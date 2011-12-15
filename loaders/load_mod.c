@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_mod.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Generic MOD loader (Protracker, StarTracker, FastTracker, etc)
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_MOD
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -508,5 +508,5 @@ MIKMODAPI MLOADER load_mod = {
 	MOD_Cleanup,
 	MOD_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

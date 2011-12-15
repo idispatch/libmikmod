@@ -24,8 +24,7 @@
 #define STDC_HEADERS 1
 
 /* Define if your system supports binary pipes (i.e. Unix) */
-#define DRV_PIPE 1
-
+/* #undef DRV_PIPE */
 /* Define if you want a .aiff file writer driver */
 /* #undef DRV_AIFF */
 /* Define if the AudioFile driver is compiled */
@@ -159,3 +158,23 @@
 /* Version number of package */
 #define VERSION "3.2.0"
 
+#undef LDR_669
+#undef LDR_AMF
+#undef LDR_ASY
+#undef LDR_DSM
+#undef LDR_FAR
+#undef LDR_GDM
+#undef LDR_GT2
+#undef LDR_IT
+#undef LDR_IMF
+#define LDR_MOD 1
+#undef LDR_MED
+#undef LDR_MTM
+#undef LDR_OKT
+#define LDR_S3M 1
+#undef LDR_STM
+#undef LDR_STX
+#undef LDR_ULT
+#undef LDR_UNI
+#define LDR_XM 1
+#undef LDR_M15

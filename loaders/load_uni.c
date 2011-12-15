@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_uni.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   UNIMOD (libmikmod's and APlayer's internal module format) loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_UNI
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -714,4 +714,5 @@ MIKMODAPI MLOADER load_uni={
 	UNI_LoadTitle
 };
 
+#endif
 /* ex:set ts=4: */

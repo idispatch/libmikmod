@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: drv_os2.c,v 1.2 2005/03/30 19:09:11 realtech Exp $
 
   Driver for output on OS/2 using MMPM/2 MCI interface
 

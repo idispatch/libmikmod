@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_gt2.c,v 1.2 2005/03/30 19:09:35 realtech Exp $
 
   Graoumf tracker format (.GT2)
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_GT2
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -370,5 +370,4 @@ MIKMODAPI MLOADER load_gt2 = {
 	GT2_LoadTitle
 };
 
-
-
+#endif

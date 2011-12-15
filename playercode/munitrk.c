@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: munitrk.c,v 1.2 2005/03/30 19:11:46 realtech Exp $
 
   All routines dealing with the manipulation of UNITRK streams
 

@@ -20,7 +20,6 @@
   
 /*==============================================================================
 
-  $Id: drv_aix.c,v 1.2 2005/03/30 19:09:11 realtech Exp $
 
   Driver for output to AIX series audio device
 

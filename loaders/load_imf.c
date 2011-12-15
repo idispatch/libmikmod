@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_imf.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   Imago Orpheus (IMF) module loader
 
@@ -30,6 +29,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_IMF
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -734,5 +734,5 @@ MIKMODAPI MLOADER load_imf={
 	IMF_Cleanup,
 	IMF_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

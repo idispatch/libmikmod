@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_asy.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   ASYLUM Music Format v1.0 (.amf) loader
   adapted from load_mod.c by Raphael Assenat <raph@raphnet.net>,
@@ -36,6 +35,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_ASY
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -394,5 +394,5 @@ MLOADER load_asy = {
 	ASY_Cleanup,
 	ASY_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

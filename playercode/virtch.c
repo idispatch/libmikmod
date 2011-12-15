@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: virtch.c,v 1.4 2005/05/18 13:42:23 raphassenat Exp $
 
   Sample mixing routines, using a 32 bits mixing buffer.
 

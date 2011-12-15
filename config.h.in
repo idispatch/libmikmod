@@ -170,3 +170,24 @@
 /* Version number of package */
 #undef VERSION
 
+/* Module Loaders*/
+#undef LDR_669
+#undef LDR_AMF
+#undef LDR_ASY
+#undef LDR_DSM
+#undef LDR_FAR
+#undef LDR_GDM
+#undef LDR_GT2
+#undef LDR_IT
+#undef LDR_IMF
+#undef LDR_MOD
+#undef LDR_MED
+#undef LDR_MTM
+#undef LDR_OKT
+#undef LDR_S3M
+#undef LDR_STM
+#undef LDR_STX
+#undef LDR_ULT
+#undef LDR_UNI
+#undef LDR_XM
+#undef LDR_M15

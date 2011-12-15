@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-  $Id: load_gdm.c,v 1.3 2005/04/07 19:57:38 realtech Exp $
 
   General DigiMusic (GDM) module loader
 
@@ -38,6 +37,7 @@
 #include "config.h"
 #endif
 
+#ifdef LDR_GDM
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -554,5 +554,5 @@ MIKMODAPI MLOADER load_gdm=
 	GDM_Cleanup,
 	GDM_LoadTitle
 };
-
+#endif
 /* ex:set ts=4: */

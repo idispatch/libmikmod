@@ -21,7 +21,6 @@
 
 /*==============================================================================
 
-  $Id: drv_aiff.c,v 1.2 2005/03/30 19:09:11 realtech Exp $
 
   Driver for output to a file called MUSIC.AIFF [or .AIF on Windows].
 
