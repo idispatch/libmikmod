@@ -38,6 +38,8 @@
 #undef DRV_AIX
 /* Define if the Linux ALSA driver is compiled */
 #undef DRV_ALSA
+/* Define if the QNX QSA driver is compiled */
+#undef DRV_QSA
 /* Define if the Enlightened Sound Daemon driver is compiled */
 #undef DRV_ESD
 /* Define if the HP-UX audio driver is compiled */

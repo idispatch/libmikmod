@@ -87,7 +87,7 @@ static CHAR MTM_Version[] = "MTM";
 
 /*========== Loader code */
 
-BOOL MTM_Test(void)
+static BOOL MTM_Test(void)
 {
 	UBYTE id[3];
 
@@ -96,7 +96,7 @@ BOOL MTM_Test(void)
 	return 0;
 }
 
-BOOL MTM_Init(void)
+static BOOL MTM_Init(void)
 {
 	if(!(mtmtrk=(MTMNOTE*)MikMod_calloc(64,sizeof(MTMNOTE)))) return 0;
 	if(!(mh=(MTMHEADER*)MikMod_malloc(sizeof(MTMHEADER)))) return 0;
@@ -104,7 +104,7 @@ BOOL MTM_Init(void)
 	return 1;
 }
 
-void MTM_Cleanup(void)
+static void MTM_Cleanup(void)
 {
 	MikMod_free(mtmtrk);
 	MikMod_free(mh);
@@ -140,7 +140,7 @@ static UBYTE* MTM_Convert(void)
 	return UniDup();
 }
 
-BOOL MTM_Load(BOOL curious)
+static BOOL MTM_Load(BOOL curious)
 {
 	int t,u;
 	MTMSAMPLE s;
@@ -259,7 +259,7 @@ BOOL MTM_Load(BOOL curious)
 	return 1;
 }
 
-CHAR *MTM_LoadTitle(void)
+static CHAR *MTM_LoadTitle(void)
 {
 	CHAR s[20];
 

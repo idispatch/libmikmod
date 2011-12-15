@@ -1,7 +1,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#ifndef HAVE_MEMORY_H
+#ifndef HAVE_STRDUP
 #include <stdlib.h>
 #include <string.h>
 #include "mikmod.h"
