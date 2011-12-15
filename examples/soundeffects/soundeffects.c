@@ -9,6 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  */
+#ifdef TEST
 #include <mikmod.h>
 
 #if !defined _WIN32 && !defined _WIN64
@@ -18,7 +19,6 @@
 #define MikMod_Sleep(ns) Sleep(ns / 1000)
 #endif
 
-#if 0
 SAMPLE *Load(char *fn)
 {	
 	char *file_data;

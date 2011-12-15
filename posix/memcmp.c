@@ -2,6 +2,7 @@
 #include "config.h"
 #endif
 
+#ifndef HAVE_MEMORY_H
 #include <stdlib.h>
 
 int memcmp(const void *__s1, const void *__s2, size_t __n)
@@ -20,3 +21,4 @@ int memcmp(const void *__s1, const void *__s2, size_t __n)
 
 	return 0;
 }
+#endif

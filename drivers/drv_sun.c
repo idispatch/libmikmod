@@ -506,9 +506,9 @@ MIKMODAPI MDRIVER drv_sun = {
 };
 
 #else
-
+#if 0
 MISSING(drv_sun);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

@@ -435,7 +435,9 @@ MIKMODAPI MDRIVER drv_nas = {
 };
 
 #else /* DRV_NAS */
+#if 0
 MISSING(drv_nas);
+#endif
 #endif /* DRV_NAS */
 
 /*** Emacs stuff */

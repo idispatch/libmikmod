@@ -31,7 +31,7 @@
 
 #include "mikmod_internals.h"
 
-void _mm_registeralldrivers(void)
+static void _mm_registeralldrivers(void)
 {
 	/* Register network drivers */
 #ifdef DRV_AF

@@ -219,9 +219,9 @@ MIKMODAPI MDRIVER drv_sgi={
 };
 
 #else
-
+#if 0
 MISSING(drv_sgi);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

@@ -226,9 +226,9 @@ MDRIVER drv_sb =
 };
 
 #else // DRV_SB
-
+#if 0
 MISSING(drv_sb);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

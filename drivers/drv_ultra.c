@@ -855,9 +855,9 @@ MDRIVER drv_ultra = {
 	Ultra_VoiceRealVolume
 };
 #else
-
+#if 0
 MISSING(drv_ultra);
-
+#endif
 #endif // DRV_ULTRA
 
 /* ex:set ts=4: */

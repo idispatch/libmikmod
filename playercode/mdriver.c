@@ -49,6 +49,11 @@
 extern int fprintf(FILE *, const char *, ...);
 #endif
 
+static void MikMod_Exit_internal(void);
+static BOOL MikMod_Active_internal(void);
+static BOOL MikMod_EnableOutput_internal(void);
+
+
 static	MDRIVER *firstdriver=NULL;
 MIKMODAPI	MDRIVER *md_driver=NULL;
 extern	MODULE *pf; /* modfile being played */
@@ -571,7 +576,7 @@ MIKMODAPI BOOL MikMod_Init(CHAR *cmdline)
 	return result;
 }
 
-void MikMod_Exit_internal(void)
+static void MikMod_Exit_internal(void)
 {
 	MikMod_DisableOutput_internal();
 	md_driver->Exit();
@@ -704,7 +709,7 @@ MIKMODAPI BOOL MikMod_SetNumVoices(int music, int sfx)
 	return result;
 }
 
-BOOL MikMod_EnableOutput_internal(void)
+static BOOL MikMod_EnableOutput_internal(void)
 {
 	_mm_critical = 1;
 	if(!isplaying) {
@@ -741,7 +746,7 @@ MIKMODAPI void MikMod_DisableOutput(void)
 	MUTEX_UNLOCK(vars);
 }
 
-BOOL MikMod_Active_internal(void)
+static BOOL MikMod_Active_internal(void)
 {
 	return isplaying;
 }
@@ -762,7 +767,7 @@ MIKMODAPI BOOL MikMod_Active(void)
    criticals).
 
    Returns the voice that the sound is being played on.                       */
-SBYTE Sample_Play_internal(SAMPLE *s,ULONG start,UBYTE flags)
+static SBYTE Sample_Play_internal(SAMPLE *s,ULONG start,UBYTE flags)
 {
 	int orig=sfxpool;/* for cases where all channels are critical */
 	int c;
