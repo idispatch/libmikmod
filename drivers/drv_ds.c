@@ -384,9 +384,9 @@ MIKMODAPI MDRIVER drv_ds=
 };
 
 #else
-
+#if 0
 MISSING(drv_ds);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

@@ -208,9 +208,9 @@ MDRIVER drv_wss =
 };
 
 #else /* ifdef DRV_WSS */
-
+#if 0
 MISSING(drv_wss);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

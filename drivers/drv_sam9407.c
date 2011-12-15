@@ -507,9 +507,9 @@ MIKMODAPI MDRIVER drv_sam9407={
 };
 
 #else
-
+#if 0
 MISSING(drv_sam9407);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

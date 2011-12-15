@@ -39,7 +39,7 @@
 
 #include "mikmod_internals.h"
 
-CHAR *_mm_errmsg[MMERR_MAX+1] =
+static CHAR *_mm_errmsg[MMERR_MAX+1] =
 {
 /* No error */
 
@@ -190,7 +190,7 @@ MikMod_handler_t _mm_errorhandler = NULL;
 MIKMODAPI int  _mm_errno = 0;
 MIKMODAPI BOOL _mm_critical = 0;
 
-MikMod_handler_t _mm_registererrorhandler(MikMod_handler_t proc)
+static MikMod_handler_t _mm_registererrorhandler(MikMod_handler_t proc)
 {
 	MikMod_handler_t oldproc=_mm_errorhandler;
 

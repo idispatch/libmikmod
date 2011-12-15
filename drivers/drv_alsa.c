@@ -461,9 +461,9 @@ MIKMODAPI MDRIVER drv_alsa={
 };
 
 #else
-
+#if 0
 MISSING(drv_alsa);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

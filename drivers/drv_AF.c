@@ -214,7 +214,9 @@ MIKMODAPI MDRIVER drv_AF={
 
 #else
 
+#if 0
 MISSING(drv_AF);
+#endif
 
 #endif
 

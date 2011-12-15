@@ -248,7 +248,7 @@ static int MP_FindEmptyChannel(MODULE *mod)
 	for (t=0;t<md_sngchn;t++)
 		if (((mod->voice[t].main.kick==KICK_ABSENT)||
 			 (mod->voice[t].main.kick==KICK_ENV))&&
-		   Voice_Stopped_internal(t))
+			 Voice_Stopped_internal(t))
 			return t;
 
 	tvol=0xffffffUL;t=-1;a=mod->voice;
@@ -3051,7 +3051,8 @@ MIKMODAPI void Player_Start(MODULE *mod)
 
 void Player_Stop_internal(void)
 {
-	if (!md_sfxchn) MikMod_DisableOutput_internal();
+	if (!md_sfxchn)
+		MikMod_DisableOutput_internal();
 	if (pf) pf->forbid=1;
 	pf=NULL;
 }

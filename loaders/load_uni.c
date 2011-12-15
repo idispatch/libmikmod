@@ -108,7 +108,7 @@ static char* readstring(void)
 	return s;
 }
 
-BOOL UNI_Test(void)
+static BOOL UNI_Test(void)
 {
 	char id[6];
 
@@ -125,12 +125,12 @@ BOOL UNI_Test(void)
 	return 0;
 }
 
-BOOL UNI_Init(void)
+static BOOL UNI_Init(void)
 {
 	return 1;
 }
 
-void UNI_Cleanup(void)
+static void UNI_Cleanup(void)
 {
 	MikMod_free(wh);
 	s=NULL;
@@ -498,7 +498,7 @@ static BOOL loadsmp5(void)
 	return 1;
 }
 
-BOOL UNI_Load(BOOL curious)
+static BOOL UNI_Load(BOOL curious)
 {
 	int t;
 	char *modtype,*oldtype=NULL;
@@ -688,7 +688,7 @@ BOOL UNI_Load(BOOL curious)
 	return 1;
 }
 
-CHAR *UNI_LoadTitle(void)
+static CHAR *UNI_LoadTitle(void)
 {
 	UBYTE ver;
 	int posit[3]={304,306,26};

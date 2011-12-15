@@ -196,9 +196,9 @@ MIKMODAPI MDRIVER drv_hp={
 };
 
 #else
-
+#if 0
 MISSING(drv_hp);
-		
+#endif
 #endif
 
 /* ex:set ts=4: */

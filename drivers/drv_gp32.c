@@ -190,9 +190,9 @@ MIKMODAPI MDRIVER drv_gp32={
 };
 
 #else
-
+#if 0
 MISSING(drv_gp32);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

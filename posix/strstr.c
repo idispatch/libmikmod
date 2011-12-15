@@ -2,6 +2,7 @@
 #include "config.h"
 #endif
 
+#ifndef HAVE_MEMORY_H
 #include <string.h>
 
 char *strstr(const char *haystack, const char *needle)
@@ -17,3 +18,4 @@ char *strstr(const char *haystack, const char *needle)
 			return NULL;
 	return (char *)scan;
 }
+#endif

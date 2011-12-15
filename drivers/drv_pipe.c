@@ -211,9 +211,9 @@ MIKMODAPI MDRIVER drv_pipe={
 };
 
 #else
-
+#if 0
 MISSING(drv_pipe);
-		
+#endif
 #endif
 
 /* ex:set ts=4: */

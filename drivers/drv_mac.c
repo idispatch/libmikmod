@@ -528,9 +528,9 @@ MIKMODAPI MDRIVER drv_mac={
 };
 
 #else /* ifdef DRV_MAC */
-
+#if 0
 MISSING(drv_mac);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

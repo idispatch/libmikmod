@@ -342,7 +342,7 @@ static MODULE *ML_AllocUniMod(void)
 	return (mf=MikMod_malloc(sizeof(MODULE)));
 }
 
-void Player_Free_internal(MODULE *mf)
+static void Player_Free_internal(MODULE *mf)
 {
 	if(mf) {
 		Player_Exit_internal(mf);

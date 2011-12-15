@@ -136,7 +136,7 @@ static	XMWAVHEADER *wh=NULL,*s=NULL;
 
 /*========== Loader code */
 
-BOOL XM_Test(void)
+static BOOL XM_Test(void)
 {
 	UBYTE id[38];
 
@@ -146,13 +146,13 @@ BOOL XM_Test(void)
 	return 0;
 }
 
-BOOL XM_Init(void)
+static BOOL XM_Init(void)
 {
 	if(!(mh=(XMHEADER *)MikMod_malloc(sizeof(XMHEADER)))) return 0;
 	return 1;
 }
 
-void XM_Cleanup(void)
+static void XM_Cleanup(void)
 {
 	MikMod_free(mh);
 }
@@ -240,6 +240,7 @@ static UBYTE* XM_Convert(XMNOTE* xmtrack,UWORD rows)
 			default:
 				if((vol>=0x10)&&(vol<=0x50))
 					UniPTEffect(0xc,vol-0x10);
+				break;
 		}
 
 		switch(eff) {
@@ -268,6 +269,7 @@ static UBYTE* XM_Convert(XMNOTE* xmtrack,UWORD rows)
 						break;
 					default:
 						UniPTEffect(eff,dat);
+						break;
 				}
 				break;
 			case 'G'-55: /* G - set global volume */
@@ -803,7 +805,7 @@ BOOL XM_Load(BOOL curious)
 	return 1;
 }
 
-CHAR *XM_LoadTitle(void)
+static CHAR *XM_LoadTitle(void)
 {
 	CHAR s[21];
 

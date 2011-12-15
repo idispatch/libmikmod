@@ -9,7 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  */
-
+#ifdef TEST
 #include <mikmod.h>
 #if !defined _WIN32 && !defined _WIN64
 #include <unistd.h>  /* for usleep() */
@@ -74,3 +74,4 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+#endif

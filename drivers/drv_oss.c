@@ -392,9 +392,9 @@ MIKMODAPI MDRIVER drv_oss={
 };
 
 #else
-
+#if 0
 MISSING(drv_oss);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

@@ -309,9 +309,9 @@ MIKMODAPI MDRIVER drv_dart = {
 };
 
 #else
-
+#if 0
 MISSING(drv_dart);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

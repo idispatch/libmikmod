@@ -206,9 +206,9 @@ MIKMODAPI MDRIVER drv_win={
 };
 
 #else
-
+#if 0
 MISSING(drv_win);
-
+#endif
 #endif
 
 /* ex:set ts=4: */

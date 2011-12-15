@@ -35,6 +35,7 @@
 #include "config.h"
 #endif
 
+#ifdef DRV_NOS
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -102,5 +103,5 @@ MIKMODAPI MDRIVER drv_nos={
 	VC_VoiceRealVolume
 };
 
-
+#endif
 /* ex:set ts=4: */

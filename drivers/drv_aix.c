@@ -198,9 +198,9 @@ MIKMODAPI MDRIVER drv_aix={
 };
 
 #else
-
+#if 0
 MISSING(drv_aix);
-
+#endif
 #endif
 
 /* ex:set ts=4: */
