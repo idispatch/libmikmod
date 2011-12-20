@@ -398,7 +398,7 @@ NAS_there_p (void)
 
 /*** MDRIVER record */
 
-MDRIVER drv_nas = {
+MIKMODAPI MDRIVER drv_nas = {
   NULL,                         /* next */
   "Network Audio System",       /* Name */
   "Network Audio System driver v0.1", /* Version */

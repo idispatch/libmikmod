@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -26,9 +26,9 @@
 ==============================================================================*/
 
 /*
-        
+
 	Written by Axel Wefers <awe@fruitz-of-dojo.de>
-        
+
         Notes:
         - if HAVE_PTHREAD (config.h) is defined, an extra thread will be created to fill the buffers.
         - if HAVE_PTHREAD is defined, a double buffered method will be used.
@@ -37,9 +37,9 @@
           playback.
         - if stereo/surround playback is selected and is not supported by the device, DMODE_STEREO
           will be deactivated automagically.
-   
+
    Bug fixes by Anders F Bjoerklund <afb@algonet.se>
-   
+
    		Changes:
    		- cleared up in the macro jungle, to see what was going on in the code
    		- separated "has ability to use pthreads" from "wish to use pthreads"
@@ -225,7 +225,7 @@ static void * OSX_FillBuffer (void *theID)
 {
     unsigned char *buffer;
     int done;
-    
+
     while (1)
     {
 		done = 0;
@@ -236,7 +236,7 @@ static void * OSX_FillBuffer (void *theID)
 	        if (gExitBufferFillThread) pthread_exit (NULL);
 
 			pthread_mutex_lock (&gBufferMutex);
-       	
+
        		if ((gCurrentFillBuffer+1) % NUMBER_BACK_BUFFERS != gCurrentPlayBuffer)
        		{
        		  #if DEBUG_TRACE_THREADS
@@ -245,7 +245,7 @@ static void * OSX_FillBuffer (void *theID)
 
        			buffer = gSoundBackBuffer[gCurrentFillBuffer];
          		if (++gCurrentFillBuffer >= NUMBER_BACK_BUFFERS)
-    				gCurrentFillBuffer = 0;	
+    				gCurrentFillBuffer = 0;
 
 					// fill the buffer...
 				FILL_BUFFER (buffer, gInBufferSize);
@@ -255,12 +255,12 @@ static void * OSX_FillBuffer (void *theID)
        			// we are caught up now, give it a rest
        			done = 1;
        		}
-       		
+
        		pthread_mutex_unlock (&gBufferMutex);
        	}
-       	
+
 		pthread_mutex_lock (&gBufferMutex);
-       	
+
          // wait for the next buffer-fill request...
 		pthread_cond_wait (&gBufferCondition, &gBufferMutex);
 
@@ -277,7 +277,7 @@ static OSStatus OSX_AudioIOProc8Bit (AudioDeviceID 		inDevice,
                                      const AudioTimeStamp 	*inNow,
                                      const AudioBufferList 	*inInputData,
                                      const AudioTimeStamp 	*inInputTime,
-                                     AudioBufferList		*outOutputData, 
+                                     AudioBufferList		*outOutputData,
                                      const AudioTimeStamp	*inOutputTime,
                                      void 			*inClientData)
 {
@@ -288,18 +288,18 @@ static OSStatus OSX_AudioIOProc8Bit (AudioDeviceID 		inDevice,
 #if USE_FILL_THREAD
 
     pthread_mutex_lock (&gBufferMutex);
- 
+
   #if DEBUG_TRACE_THREADS
  	fprintf(stderr,"playing buffer #%d\n", gCurrentPlayBuffer);
   #endif
-   
+
     myInBuffer = (UInt8 *) gSoundBackBuffer[gCurrentPlayBuffer];
  	if (++gCurrentPlayBuffer >= NUMBER_BACK_BUFFERS)
-    	gCurrentPlayBuffer = 0;	
+    	gCurrentPlayBuffer = 0;
 
     // fill her up, please ...
     pthread_cond_signal (&gBufferCondition);
-	
+
 	pthread_mutex_unlock (&gBufferMutex);
 
 #else
@@ -391,7 +391,7 @@ static OSStatus OSX_AudioIOProc16Bit (AudioDeviceID 		inDevice,
                                       const AudioTimeStamp 	*inNow,
                                       const AudioBufferList 	*inInputData,
                                       const AudioTimeStamp 	*inInputTime,
-                                      AudioBufferList		*outOutputData, 
+                                      AudioBufferList		*outOutputData,
                                       const AudioTimeStamp	*inOutputTime,
                                       void 			*inClientData)
 {
@@ -402,14 +402,14 @@ static OSStatus OSX_AudioIOProc16Bit (AudioDeviceID 		inDevice,
 #if USE_FILL_THREAD
 
 	pthread_mutex_lock (&gBufferMutex);
- 	
+
   #if DEBUG_TRACE_THREADS
  	fprintf(stderr,"playing buffer #%d\n", gCurrentPlayBuffer);
   #endif
-                                      
+
  	myInBuffer = (SInt16 *) gSoundBackBuffer[gCurrentPlayBuffer];
  	if (++gCurrentPlayBuffer >= NUMBER_BACK_BUFFERS)
-    	gCurrentPlayBuffer = 0;	
+    	gCurrentPlayBuffer = 0;
 
 	// ... and check the oil too
     pthread_cond_signal (&gBufferCondition);
@@ -464,7 +464,7 @@ static OSStatus OSX_AudioIOProcFloat (AudioDeviceID 		inDevice,
                                       const AudioTimeStamp 	*inNow,
                                       const AudioBufferList 	*inInputData,
                                       const AudioTimeStamp 	*inInputTime,
-                                      AudioBufferList		*outOutputData, 
+                                      AudioBufferList		*outOutputData,
                                       const AudioTimeStamp	*inOutputTime,
                                       void 			*inClientData)
 {
@@ -475,14 +475,14 @@ static OSStatus OSX_AudioIOProcFloat (AudioDeviceID 		inDevice,
 #if USE_FILL_THREAD
 
 	pthread_mutex_lock (&gBufferMutex);
- 	
+
   #if DEBUG_TRACE_THREADS
  	fprintf(stderr,"playing buffer #%d\n", gCurrentPlayBuffer);
   #endif
-                                      
+
  	myInBuffer = (float *) gSoundBackBuffer[gCurrentPlayBuffer];
  	if (++gCurrentPlayBuffer >= NUMBER_BACK_BUFFERS)
-    	gCurrentPlayBuffer = 0;	
+    	gCurrentPlayBuffer = 0;
 
 	// ... perhaps wash the windshield
     pthread_cond_signal (&gBufferCondition);
@@ -653,7 +653,7 @@ static BOOL OSX_Init (void)
         AudioDeviceSetProperty (gSoundDeviceID, NULL, 0, 0, kAudioDevicePropertyBufferSize,
                                 sizeof(myBufferByteCount), &myBufferByteCount)
     );
-    
+
     // add our audio IO procedure....
     CHECK_ERROR
     (
@@ -680,21 +680,21 @@ static BOOL OSX_Init (void)
         _mm_errno = MMERR_OSX_PTHREAD;
         return (1);
     }
-    
+
     {
     	int i;
-    	
+
     	for (i = 0; i < NUMBER_BACK_BUFFERS; i++)
   		if ((gSoundBackBuffer[i] = MikMod_malloc(gInBufferSize)) == NULL)
     	{
      	   _mm_errno = MMERR_OUT_OF_MEMORY;
      	   return (1);
     	}
-    	
+
     	gCurrentPlayBuffer = 0;
 		gCurrentFillBuffer = 0;
 	}
-	
+
 #endif /* USE_FILL_THREAD */
 
     // last not least init mikmod...
@@ -720,7 +720,7 @@ static void OSX_Exit (void)
         pthread_cond_signal(&gBufferCondition);
         pthread_join (gBufferFillThread, NULL);
     }
-    
+
     // destroy other thread related stuff...
     pthread_mutex_destroy (&gBufferMutex);
     pthread_cond_destroy (&gBufferCondition);
@@ -746,7 +746,7 @@ static void OSX_Exit (void)
     }
 
 #if !USE_FILL_THREAD
- 
+
     // free up the sound buffer...
     if (gSoundBuffer)
     {
@@ -758,7 +758,7 @@ static void OSX_Exit (void)
 
 	{
 		int i;
-		
+
    		for ( i = 0; i < NUMBER_BACK_BUFFERS; i++ )
    		{
 				// free up the back buffer...
@@ -770,7 +770,7 @@ static void OSX_Exit (void)
    		}
    	}
 #endif /* USE_FILL_THREAD */
-    
+
     VC_Exit ();
 }
 
@@ -783,7 +783,7 @@ static BOOL OSX_PlayStart (void)
     {
         return (1);
     }
-    
+
     // just for security: audio device already playing?
     if (gDeviceHasStarted) return (0);
 
@@ -806,7 +806,7 @@ static BOOL OSX_PlayStart (void)
         return (1);
     }
     gDeviceHasStarted = 1;
-    
+
     return (0);
 }
 
@@ -814,7 +814,7 @@ static BOOL OSX_PlayStart (void)
 
 static void OSX_PlayStop (void)
 {
- 
+
     if (gDeviceHasStarted)
     {
         // stop the audio IO Proc...
@@ -829,11 +829,11 @@ static void OSX_PlayStop (void)
         pthread_mutex_unlock (&gBufferMutex);
         pthread_cond_signal (&gBufferCondition);
         pthread_join (gBufferFillThread, NULL);
-    
+
 #endif /* USE_FILL_THREAD */
 
     }
-    
+
     // finally tell virtch that playback has stopped...
     VC_PlayStop ();
 }
@@ -847,7 +847,7 @@ static void OSX_Update (void)
 
 //________________________________________________________________________________________________drv_osx
 
-MDRIVER drv_osx={
+MIKMODAPI MDRIVER drv_osx={
         NULL,
         "CoreAudio Driver",
         "CoreAudio Driver v2.1",

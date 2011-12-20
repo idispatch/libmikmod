@@ -47,7 +47,7 @@
 #include <sys/asoundlib.h>
 #endif
 
-#define DEFAULT_NUMFRAGS 3
+#define DEFAULT_NUMFRAGS 4
 
 static snd_pcm_t *playback_handle = NULL;
 static int fragmentsize, numfrags = DEFAULT_NUMFRAGS;
@@ -71,14 +71,17 @@ static void qsa_command_line(CHAR *cmdline) {
 
 static BOOL qsa_is_there(void) {
 	int ret_val;
-	int *cards, *devices;
-	cards = devices = NULL;
+	int *cards = NULL, *devices  = NULL;
 	ret_val = num_devices = 8; /* start with eight */
 	cards = (int*)MikMod_malloc(sizeof(int) * num_devices);
 	devices = (int*)MikMod_malloc(sizeof(int) * num_devices);
 	memset(cards, 0, sizeof(sizeof(int) * num_devices));
 	memset(devices, 0, sizeof(sizeof(int) * num_devices));
-	ret_val = snd_pcm_find(SND_PCM_FMT_S16_LE, &num_devices, cards, devices, SND_PCM_OPEN_PLAYBACK);
+	ret_val = snd_pcm_find(SND_PCM_FMT_S16_LE,
+							&num_devices,
+							cards,
+							devices,
+							SND_PCM_OPEN_PLAYBACK);
 #if MIKMOD_DEBUG
 	fprintf(stderr, "Number of devices: %d\n", num_devices);
 #endif
@@ -106,7 +109,7 @@ static BOOL qsa_init_impl(void) {
 #ifdef SND_LITTLE_ENDIAN
 	pcm_format.format = (md_mode & DMODE_16BITS) ? SND_PCM_SFMT_S16_LE : SND_PCM_SFMT_U8;
 #else
-	pcm_format.format=(md_mode&DMODE_16BITS)?SND_PCM_SFMT_S16_BE:SND_PCM_SFMT_U8;
+	pcm_format.format = (md_mode & DMODE_16BITS) ? SND_PCM_SFMT_S16_BE : SND_PCM_SFMT_U8;
 #endif
 	pcm_format.voices = (md_mode & DMODE_STEREO) ? 2 : 1;
 	pcm_format.rate = md_mixfreq = 48000;
@@ -159,16 +162,17 @@ static BOOL qsa_init_impl(void) {
 	fprintf(stderr, "fragment_align: %d\n", channel_info.fragment_align);
 	fprintf(stderr, "fifo_size:  %d\n", channel_info.fifo_size);
 #endif
-	if (   channel_info.min_rate > pcm_format.rate
-		|| channel_info.max_rate < pcm_format.rate
-		|| channel_info.max_voices < pcm_format.voices
-		|| !(channel_info.formats & (1 << pcm_format.format))) {
+	if (channel_info.min_rate > pcm_format.rate ||
+		channel_info.max_rate < pcm_format.rate ||
+		channel_info.max_voices < pcm_format.voices ||
+		!(channel_info.formats & (1 << pcm_format.format))) {
 		return 1;
 	}
 
 	fragmentsize = channel_info.max_fragment_size / numfrags;
 
-	if ((err = snd_pcm_plugin_set_disable(playback_handle, PLUGIN_DISABLE_BUFFER_PARTIAL_BLOCKS)) < 0) {
+	if ((err = snd_pcm_plugin_set_disable(playback_handle,
+											PLUGIN_DISABLE_BUFFER_PARTIAL_BLOCKS)) < 0) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_set_disable: %s\n", snd_strerror(err));
 #endif
@@ -177,7 +181,8 @@ static BOOL qsa_init_impl(void) {
 		return 1;
 	}
 
-	if ((err = snd_pcm_plugin_set_disable(playback_handle, PLUGIN_DISABLE_MMAP)) < 0) {
+	if ((err = snd_pcm_plugin_set_disable(playback_handle,
+											PLUGIN_DISABLE_MMAP)) < 0) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_set_disable: %s\n", snd_strerror(err));
 #endif
@@ -196,7 +201,6 @@ static BOOL qsa_init_impl(void) {
 	channel_params.format.voices = pcm_format.voices;
 	channel_params.start_mode = SND_PCM_START_FULL;
 	channel_params.stop_mode = SND_PCM_STOP_STOP;
-
 	channel_params.buf.block.frag_size = fragmentsize;
 	channel_params.buf.block.frags_max = numfrags - 1;
 	channel_params.buf.block.frags_min = 1;
@@ -237,7 +241,7 @@ static BOOL qsa_init_impl(void) {
 		return 1;
 	}
 
-	if (!(audiobuffer = (SBYTE*) MikMod_malloc(fragmentsize))) {
+	if (!(audiobuffer = (SBYTE*)MikMod_malloc(4 * fragmentsize))) {
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -312,7 +316,7 @@ static BOOL qsa_reset(void) {
 	return qsa_init_impl();
 }
 
-MDRIVER drv_qsa = {
+MIKMODAPI MDRIVER drv_qsa = {
 	NULL,
 	"QSA",
 	"QNX Sound Architecture (QSA) driver v1.0",

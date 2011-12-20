@@ -6,18 +6,18 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 	02111-1307, USA.
 */
-  
+
 /*==============================================================================
 
 
@@ -89,7 +89,7 @@ static BOOL HP_IsThere(void)
 static BOOL HP_Init(void)
 {
 	int flags;
-	
+
 	if (!(md_mode&DMODE_16BITS)) {
 		_mm_errno=MMERR_16BIT_ONLY;
 		return 1;
@@ -109,22 +109,22 @@ static BOOL HP_Init(void)
 		_mm_errno=MMERR_NON_BLOCK;
 		return 1;
 	}
-	
+
 	if (ioctl(fd,AUDIO_SET_DATA_FORMAT,AUDIO_FORMAT_LINEAR16BIT)) {
 		_mm_errno=MMERR_HP_SETSAMPLESIZE;
 		return 1;
 	}
-	
+
 	if (ioctl(fd,AUDIO_SET_SAMPLE_RATE,md_mixfreq)) {
 		_mm_errno=MMERR_HP_SETSPEED;
 		return 1;
 	}
-	
+
 	if (ioctl(fd,AUDIO_SET_CHANNELS,(md_mode&DMODE_STEREO)?2:1)) {
 		_mm_errno=MMERR_HP_CHANNELS;
 		return 1;
 	}
-	
+
 	if (ioctl(fd,AUDIO_SET_OUTPUT,
 	             headphone?AUDIO_OUT_HEADPHONE:AUDIO_OUT_SPEAKER)) {
 		_mm_errno=MMERR_HP_AUDIO_OUTPUT;
@@ -137,7 +137,7 @@ static BOOL HP_Init(void)
 	}
 
 	if (!(audiobuffer=(SBYTE*)MikMod_malloc(buffersize))) return 1;
-	
+
 	return VC_Init();
 }
 
@@ -160,7 +160,7 @@ static void HP_Update(void)
 	write(fd,audiobuffer,VC_WriteBytes(audiobuffer,buffersize));
 }
 
-MDRIVER drv_hp={
+MIKMODAPI MDRIVER drv_hp={
 	NULL,
 	"HP-UX Audio",
 	"HP-UX Audio driver v1.3",

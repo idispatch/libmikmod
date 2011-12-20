@@ -20,9 +20,9 @@
 
 /*==============================================================================
 
-  
+
   Driver for the Linux sam9407 driver
-  
+
 ==============================================================================*/
 
 /*
@@ -472,7 +472,7 @@ static ULONG voiceRealVolume(UBYTE voice)
 	return 0;
 }
 
-MDRIVER drv_sam9407={
+MIKMODAPI MDRIVER drv_sam9407={
 	NULL,
 	"sam9407 driver",
 	"Linux sam9407 driver v1.0",

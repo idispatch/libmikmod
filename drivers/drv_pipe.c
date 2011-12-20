@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -44,7 +44,7 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 #include <errno.h>
 #include <sys/wait.h>
 #endif
@@ -57,7 +57,7 @@ extern int fclose(FILE *);
 
 static	MWRITER *pipeout=NULL;
 static	FILE *pipefile=NULL;
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 static	int pipefd[2]={-1,-1};
 static	pid_t pid;
 #endif
@@ -86,7 +86,7 @@ static BOOL pipe_Init(void)
 		_mm_errno=MMERR_OPENING_FILE;
 		return 1;
 	}
-#if !defined unix && (!defined __APPLE__ || !defined __MACH__)
+#if !defined unix && !defined __unix__ && !defined __unix && (!defined __APPLE__ || !defined __MACH__)
 #ifdef __EMX__
 	_fsetmode(stdout, "b");
 #endif
@@ -140,7 +140,7 @@ static BOOL pipe_Init(void)
 
 static void pipe_Exit(void)
 {
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 	int pstat;
 	pid_t pid2;
 #endif
@@ -152,7 +152,7 @@ static void pipe_Exit(void)
 		pipeout=NULL;
 	}
 	if(pipefile) {
-#if !defined unix && (!defined __APPLE__ || !defined __MACH__)
+#if !defined unix && !defined __unix__ && !defined __unix && (!defined __APPLE__ || !defined __MACH__)
 #ifdef __WATCOMC__
 		_pclose(pipefile);
 #else
@@ -176,7 +176,7 @@ static void pipe_Update(void)
 	_mm_write_UBYTES(audiobuffer,VC_WriteBytes(audiobuffer,BUFFERSIZE),pipeout);
 }
 
-MDRIVER drv_pipe={
+MIKMODAPI MDRIVER drv_pipe={
 	NULL,
 	"Piped writer",
 	"Piped Output driver v0.2",

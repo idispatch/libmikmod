@@ -424,7 +424,7 @@ static BOOL ALSA_Reset(void)
 	return ALSA_Init_internal();
 }
 
-MDRIVER drv_alsa={
+MIKMODAPI MDRIVER drv_alsa={
 	NULL,
 	"ALSA",
 	"Advanced Linux Sound Architecture (ALSA) driver v0.4",

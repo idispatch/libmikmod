@@ -6,18 +6,18 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 	02111-1307, USA.
 */
-  
+
 /*==============================================================================
 
 
@@ -71,7 +71,7 @@ static	SBYTE *audiobuffer=NULL;
 static void SGI_CommandLine(CHAR *cmdline)
 {
 	CHAR *ptr;
-	
+
 	if ((ptr=MD_GetAtom("fragsize",cmdline,0))) {
 		sgi_fragsize=atol(ptr);
 		MikMod_free(ptr);
@@ -126,7 +126,7 @@ static BOOL SGI_Init(void)
 		_mm_errno=MMERR_OPENING_AUDIO;
 		return 1;
 	}
-	
+
 	if (md_mode&DMODE_16BITS) {
 		if (ALsetwidth(sgi_config,AL_SAMPLE_16)<0) {
 			_mm_errno=MMERR_SGI_16BIT;
@@ -167,7 +167,7 @@ static BOOL SGI_Init(void)
 	}
 
 	if(!(audiobuffer=(SBYTE*)MikMod_malloc(sgi_fragsize))) return 1;
-	
+
 	return VC_Init();
 }
 
@@ -183,7 +183,7 @@ static void SGI_Update(void)
 	             VC_WriteBytes(audiobuffer,sgi_fragsize)>>sample_factor);
 }
 
-MDRIVER drv_sgi={
+MIKMODAPI MDRIVER drv_sgi={
 	NULL,
 	"SGI Audio System",
 	"SGI Audio System driver v0.5",

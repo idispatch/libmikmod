@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -77,7 +77,7 @@ static BOOL RAW_IsThere(void)
 
 static BOOL RAW_Init(void)
 {
-#if defined unix || (defined __APPLE__ && defined __MACH__)
+#if defined(unix) || defined(__unix__) || defined(__unix) || (defined __APPLE__ && defined __MACH__)
 	if(!MD_Access(filename?filename:FILENAME)) {
 		_mm_errno=MMERR_OPENING_FILE;
 		return 1;
@@ -138,7 +138,7 @@ static BOOL RAW_Reset(void)
 	return 0;
 }
 
-MDRIVER drv_raw={
+MIKMODAPI MDRIVER drv_raw={
 	NULL,
 	"Disk writer (raw data)",
 	"Raw disk writer (music.raw) v1.1",

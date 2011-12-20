@@ -83,7 +83,7 @@ static void CALLBACK WIN_CallBack(HWAVEOUT hwo,UINT uMsg,DWORD dwInstance,DWORD 
 {
 	if (uMsg==WOM_DONE) --buffersout;
 }
-  
+
 static BOOL WIN_Init(void)
 {
 	WAVEFORMATEX	wfe;
@@ -171,7 +171,7 @@ static void WIN_PlayStop(void)
 	VC_PlayStop();
 }
 
-MDRIVER drv_win={
+MIKMODAPI MDRIVER drv_win={
 	NULL,
 	"Windows waveform-audio",
 	"Windows waveform-audio driver v0.1",
