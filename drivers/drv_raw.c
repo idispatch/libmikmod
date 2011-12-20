@@ -138,7 +138,7 @@ static BOOL RAW_Reset(void)
 	return 0;
 }
 
-MIKMODAPI MDRIVER drv_raw={
+MDRIVER drv_raw={
 	NULL,
 	"Disk writer (raw data)",
 	"Raw disk writer (music.raw) v1.1",
@@ -172,4 +172,3 @@ MIKMODAPI MDRIVER drv_raw={
 	VC_VoiceRealVolume
 };
 #endif
-/* ex:set ts=4: */

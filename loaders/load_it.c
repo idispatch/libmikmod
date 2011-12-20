@@ -1010,4 +1010,3 @@ MIKMODAPI MLOADER load_it={
 	IT_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

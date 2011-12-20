@@ -171,7 +171,7 @@ static void WIN_PlayStop(void)
 	VC_PlayStop();
 }
 
-MIKMODAPI MDRIVER drv_win={
+MDRIVER drv_win={
 	NULL,
 	"Windows waveform-audio",
 	"Windows waveform-audio driver v0.1",
@@ -211,4 +211,3 @@ MISSING(drv_win);
 #endif
 #endif
 
-/* ex:set ts=4: */

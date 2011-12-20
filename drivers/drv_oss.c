@@ -353,7 +353,7 @@ static BOOL OSS_Reset(void)
 	return OSS_Init_internal();
 }
 
-MIKMODAPI MDRIVER drv_oss={
+MDRIVER drv_oss={
 	NULL,
 	"Open Sound System",
 	"Open Sound System driver v1.7",
@@ -397,4 +397,3 @@ MISSING(drv_oss);
 #endif
 #endif
 
-/* ex:set ts=4: */

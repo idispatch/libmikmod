@@ -510,4 +510,3 @@ extern void __gus_mem_dump();
 
 #endif /* __DOSGUS_H__ */
 
-/* ex:set ts=4: */

@@ -347,7 +347,7 @@ static BOOL DS_PlayStart(void)
 	return VC_PlayStart();
 }
 
-MIKMODAPI MDRIVER drv_ds=
+MDRIVER drv_ds=
 {
 	NULL,
 	"DirectSound",
@@ -389,4 +389,3 @@ MISSING(drv_ds);
 #endif
 #endif
 
-/* ex:set ts=4: */

@@ -847,7 +847,7 @@ static void OSX_Update (void)
 
 //________________________________________________________________________________________________drv_osx
 
-MIKMODAPI MDRIVER drv_osx={
+MDRIVER drv_osx={
         NULL,
         "CoreAudio Driver",
         "CoreAudio Driver v2.1",

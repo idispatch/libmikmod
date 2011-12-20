@@ -502,4 +502,3 @@ MIKMODAPI MLOADER load_m15={
 	M15_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

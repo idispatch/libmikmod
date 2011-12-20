@@ -212,4 +212,3 @@ void dma_start(dma_buffer * buffer, unsigned long count, unsigned char mode)
 		enable();
 }
 #endif
-/* ex:set ts=4: */

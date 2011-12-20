@@ -457,4 +457,3 @@ MIKMODAPI MLOADER load_okt = {
 	OKT_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

@@ -398,4 +398,3 @@ int gus_dma_usage (int use);
 
 #endif /* __LIBGUS_H__ */
 
-/* ex:set ts=4: */

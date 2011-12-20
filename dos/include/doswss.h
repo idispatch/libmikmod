@@ -213,4 +213,3 @@ extern void wss_level(int level);
 
 #endif /* __DOSWSS_H__ */
 
-/* ex:set ts=4: */

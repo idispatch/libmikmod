@@ -183,7 +183,7 @@ static void SGI_Update(void)
 	             VC_WriteBytes(audiobuffer,sgi_fragsize)>>sample_factor);
 }
 
-MIKMODAPI MDRIVER drv_sgi={
+MDRIVER drv_sgi={
 	NULL,
 	"SGI Audio System",
 	"SGI Audio System driver v0.5",
@@ -224,4 +224,3 @@ MISSING(drv_sgi);
 #endif
 #endif
 
-/* ex:set ts=4: */

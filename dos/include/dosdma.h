@@ -187,4 +187,3 @@ extern void dma_start(dma_buffer * buffer, unsigned long count,
 
 #endif /* __DOSDMA_H__ */
 
-/* ex:set ts=4: */

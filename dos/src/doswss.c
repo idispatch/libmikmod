@@ -582,4 +582,3 @@ void wss_level(int level)
 }
 
 #endif
-/* ex:set ts=4: */

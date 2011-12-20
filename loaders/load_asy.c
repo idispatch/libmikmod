@@ -395,4 +395,3 @@ MLOADER load_asy = {
 	ASY_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

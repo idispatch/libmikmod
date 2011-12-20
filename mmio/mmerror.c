@@ -209,4 +209,3 @@ MIKMODAPI MikMod_handler_t MikMod_RegisterErrorHandler(MikMod_handler_t proc)
 	return result;
 }
 
-/* ex:set ts=4: */

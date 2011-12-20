@@ -148,4 +148,3 @@ void MikMod_free(void *data)
 	}
 }
 
-/* ex:set ts=4: */

@@ -774,4 +774,3 @@ MIKMODAPI extern ULONG VC_VoiceRealVolume(UBYTE);
 
 #endif
 
-/* ex:set ts=4: */

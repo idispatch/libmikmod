@@ -561,4 +561,3 @@ void sb_query_dma(unsigned int *dma_size, unsigned int *dma_pos)
 	*dma_pos = *dma_size - dma_left;
 }
 #endif
-/* ex:set ts=4: */

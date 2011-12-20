@@ -119,4 +119,3 @@ extern unsigned int __irq_stack_count;
 
 #endif /* __DOSIRQ_H__ */
 
-/* ex:set ts=4: */

@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -347,14 +347,14 @@ static BOOL ALSA_Init_internal(void)
 
 		alsa_ctl_close(ctl_h);
 	}
-	return 1;
+	return 0;
 }
 
 static BOOL ALSA_Init(void)
 {
 #ifdef HAVE_SSE2
 	// TODO : Detect SSE2, then set
-	// md_mode |= DMODE_SIMDMIXER; 
+	// md_mode |= DMODE_SIMDMIXER;
 #endif
 #ifdef MIKMOD_DYNAMIC
 	if (ALSA_Link()) {
@@ -402,7 +402,7 @@ static void ALSA_Update(void)
 			total = fragmentsize;
 	} else
 		total = fragmentsize;
-	
+
 	/* Don't send data if ALSA is too busy */
 	while (total) {
 		count = fragmentsize > total ? total : fragmentsize;
@@ -414,7 +414,7 @@ static void ALSA_Update(void)
 static void ALSA_PlayStop(void)
 {
 	VC_PlayStop();
-	
+
 	alsa_pcm_flush_playback(pcm_h);
 }
 
@@ -424,7 +424,7 @@ static BOOL ALSA_Reset(void)
 	return ALSA_Init_internal();
 }
 
-MIKMODAPI MDRIVER drv_alsa={
+MDRIVER drv_alsa={
 	NULL,
 	"ALSA",
 	"Advanced Linux Sound Architecture (ALSA) driver v0.4",
@@ -432,7 +432,7 @@ MIKMODAPI MDRIVER drv_alsa={
 	"alsa",
 	"card:r:0,31,0:Soundcard number\n"
         "pcm:r:0,3,0:PCM device number\n"
-        "buffer:r:2,16,4:Number of buffer fragments\n",	
+        "buffer:r:2,16,4:Number of buffer fragments\n",
 	ALSA_CommandLine,
 	ALSA_IsThere,
 	VC_SampleLoad,
@@ -466,4 +466,3 @@ MISSING(drv_alsa);
 #endif
 #endif
 
-/* ex:set ts=4: */

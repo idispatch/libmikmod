@@ -336,4 +336,3 @@ MIKMODAPI MLOADER load_ult={
 };
 
 #endif
-/* ex:set ts=4: */

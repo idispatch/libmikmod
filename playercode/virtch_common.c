@@ -458,4 +458,3 @@ MikMod_callback_t vc_callback;
 
 #endif
 
-/* ex:set ts=4: */

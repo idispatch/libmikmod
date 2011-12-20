@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -34,91 +34,94 @@
 static void _mm_registeralldrivers(void)
 {
 	/* Register network drivers */
-#ifdef DRV_AF
+#if DRV_AF
 	_mm_registerdriver(&drv_AF);
 #endif
-#ifdef DRV_ESD
+#if DRV_ESD
 	_mm_registerdriver(&drv_esd);
 #endif
-#ifdef DRV_NAS
+#if DRV_NAS
 	_mm_registerdriver(&drv_nas);
 #endif
 
 	/* Register hardware drivers - hardware mixing */
-#ifdef DRV_ULTRA
+#if DRV_ULTRA
 	_mm_registerdriver(&drv_ultra);
 #endif
 
 	/* Register hardware drivers - software mixing */
-#ifdef DRV_AIX
+#if DRV_AIX
 	_mm_registerdriver(&drv_aix);
 #endif
-#ifdef DRV_ALSA
+#if DRV_ALSA
 	_mm_registerdriver(&drv_alsa);
 #endif
-#ifdef DRV_HP
+#if DRV_QSA
+	_mm_registerdriver(&drv_qsa);
+#endif
+#if DRV_HP
 	_mm_registerdriver(&drv_hp);
 #endif
-#ifdef DRV_OSS
+#if DRV_OSS
 	_mm_registerdriver(&drv_oss);
 #endif
-#ifdef DRV_SGI
+#if DRV_SGI
 	_mm_registerdriver(&drv_sgi);
 #endif
-#ifdef DRV_SUN
+#if DRV_SUN
 	_mm_registerdriver(&drv_sun);
 #endif
-#ifdef DRV_DART
+#if DRV_DART
 	_mm_registerdriver(&drv_dart);
 #endif
-#ifdef DRV_OS2
+#if DRV_OS2
 	_mm_registerdriver(&drv_os2);
 #endif
-#ifdef DRV_DS
+#if DRV_DS
 	_mm_registerdriver(&drv_ds);
 #endif
-#ifdef DRV_WIN
+#if DRV_WIN
 	_mm_registerdriver(&drv_win);
 #endif
-#ifdef DRV_MAC
+#if DRV_MAC
 	_mm_registerdriver(&drv_mac);
 #endif
-#ifdef DRV_OSX
+#if DRV_OSX
 	_mm_registerdriver(&drv_osx);
 #endif
-#ifdef DRV_GP32
+#if DRV_GP32
 	_mm_registerdriver(&drv_gp32);
 #endif
-	
 	/* dos drivers */
-#ifdef DRV_WSS
+#if DRV_WSS
 	/* wss first, since some cards emulate sb */
 	_mm_registerdriver(&drv_wss);
 #endif
-#ifdef DRV_SB
+#if DRV_SB
 	_mm_registerdriver(&drv_sb);
 #endif
-#ifdef DRV_RAW
+#if DRV_RAW
 	/* Register disk writers */
 	_mm_registerdriver(&drv_raw);
 #endif
-#ifdef DRV_WAV
+#if DRV_WAV
 	_mm_registerdriver(&drv_wav);
 #endif
-#ifdef DRV_AIFF
+#if DRV_AIFF
 	_mm_registerdriver(&drv_aiff);
 #endif
-	
-	/* Register other drivers */
-#ifdef DRV_PIPE
+    /* Register other drivers */
+#if DRV_PIPE
 	_mm_registerdriver(&drv_pipe);
 #endif
 #if defined macintosh || defined __QNXNTO__
 #else
 	_mm_registerdriver(&drv_stdout);
 #endif
-
+#if DRV_NOS
+	/* Must be the last (least preferred) */
 	_mm_registerdriver(&drv_nos);
+#endif
 }
 
 void MikMod_RegisterAllDrivers(void)
@@ -128,4 +131,3 @@ void MikMod_RegisterAllDrivers(void)
 	MUTEX_UNLOCK(lists);
 }
 
-/* ex:set ts=4: */

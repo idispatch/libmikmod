@@ -735,4 +735,3 @@ MIKMODAPI MLOADER load_imf={
 	IMF_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

@@ -311,7 +311,7 @@ static BOOL ESD_Reset(void)
 	return ESD_Init_internal();
 }
 
-MIKMODAPI MDRIVER drv_esd={
+MDRIVER drv_esd={
 	NULL,
 	"Enlightened sound daemon",
 	/* use the same version number as the EsounD release it works best with */
@@ -352,4 +352,3 @@ MISSING(drv_esd);
 #endif
 #endif
 
-/* ex:set ts=4: */

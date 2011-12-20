@@ -3406,4 +3406,3 @@ MIKMODAPI int Player_GetRow(void)
 }
 
 
-/* ex:set ts=4: */

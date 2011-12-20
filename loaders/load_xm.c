@@ -828,4 +828,3 @@ MIKMODAPI MLOADER load_xm={
 	XM_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

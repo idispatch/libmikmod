@@ -389,4 +389,3 @@ static void extract_channel(const char *src, char *dst, int num_chan, int num_sa
 	}
 }
 
-/* ex:set ts=4: */

@@ -213,4 +213,3 @@ MISSING(drv_wss);
 #endif
 #endif
 
-/* ex:set ts=4: */

@@ -342,7 +342,7 @@ static void OS2_Update(void)
 	/* does nothing since buffer is updated in the background */
 }
 
-MIKMODAPI MDRIVER drv_os2 = {
+MDRIVER drv_os2 = {
 	NULL,
 	"OS/2 MMPM/2",
 	"OS/2 MMPM/2 MCI driver v1.2",
@@ -378,4 +378,3 @@ MIKMODAPI MDRIVER drv_os2 = {
 };
 #endif
 
-/* ex:set ts=4: */

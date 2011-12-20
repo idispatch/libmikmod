@@ -84,7 +84,7 @@ static BOOL stdout_Reset(void)
 	return VC_Init();
 }
 
-MIKMODAPI MDRIVER drv_stdout={
+MDRIVER drv_stdout={
 	NULL,
 	"stdout",
 	"Standard output driver v1.1",
@@ -118,4 +118,3 @@ MIKMODAPI MDRIVER drv_stdout={
 	VC_VoiceRealVolume
 };
 #endif
-/* ex:set ts=4: */

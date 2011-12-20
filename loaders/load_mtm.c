@@ -282,4 +282,3 @@ MIKMODAPI MLOADER load_mtm={
 	MTM_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

@@ -158,7 +158,7 @@ static void WAV_Update(void)
 	dumpsize+=done;
 }
 
-MIKMODAPI MDRIVER drv_wav={
+MDRIVER drv_wav={
 	NULL,
 	"Disk writer (wav)",
 	"Wav disk writer (music.wav) v1.2",
@@ -192,4 +192,3 @@ MIKMODAPI MDRIVER drv_wav={
 	VC_VoiceRealVolume
 };
 #endif
-/* ex:set ts=4: */

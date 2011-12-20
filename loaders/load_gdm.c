@@ -555,4 +555,3 @@ MIKMODAPI MLOADER load_gdm=
 	GDM_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

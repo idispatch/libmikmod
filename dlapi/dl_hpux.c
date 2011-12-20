@@ -61,4 +61,3 @@ void *dlsym(void *handle, const char *sym)
 	return NULL;
 }
 #endif
-/* ex:set ts=4: */

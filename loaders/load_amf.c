@@ -566,4 +566,3 @@ MIKMODAPI MLOADER load_amf={
 	AMF_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

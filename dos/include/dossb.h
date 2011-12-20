@@ -337,4 +337,3 @@ extern void sb_query_dma(unsigned int *dma_size, unsigned int *dma_pos);
 
 #endif /* __DOSSB_H__ */
 
-/* ex:set ts=4: */

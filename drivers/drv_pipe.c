@@ -176,7 +176,7 @@ static void pipe_Update(void)
 	_mm_write_UBYTES(audiobuffer,VC_WriteBytes(audiobuffer,BUFFERSIZE),pipeout);
 }
 
-MIKMODAPI MDRIVER drv_pipe={
+MDRIVER drv_pipe={
 	NULL,
 	"Piped writer",
 	"Piped Output driver v0.2",
@@ -216,4 +216,3 @@ MISSING(drv_pipe);
 #endif
 #endif
 
-/* ex:set ts=4: */

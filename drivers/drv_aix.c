@@ -163,7 +163,7 @@ static void AIX_Pause(void)
 	write(fd,audiobuffer,VC_SilenceBytes(audiobuffer,buffersize));
 }
 
-MIKMODAPI MDRIVER drv_aix={
+MDRIVER drv_aix={
 	NULL,
 	"AIX Audio",
 	"AIX Audio driver v1.2",
@@ -203,4 +203,3 @@ MISSING(drv_aix);
 #endif
 #endif
 
-/* ex:set ts=4: */

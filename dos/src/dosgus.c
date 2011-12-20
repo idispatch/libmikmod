@@ -1874,4 +1874,3 @@ int gus_dma_usage (int use)
 	return 0;
 }
 #endif
-/* ex:set ts=4: */

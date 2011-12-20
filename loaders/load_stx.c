@@ -436,4 +436,3 @@ MIKMODAPI MLOADER load_stx={
 	STX_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

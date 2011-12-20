@@ -2115,4 +2115,3 @@ void unsignedtoulaw(char *buf, int nsamp)
 	}
 }
 
-/* ex:set ts=4: */

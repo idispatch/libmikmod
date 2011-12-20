@@ -332,4 +332,3 @@ void UniVolEffect(UWORD eff,UBYTE dat)
 	}
 }
 
-/* ex:set ts=4: */

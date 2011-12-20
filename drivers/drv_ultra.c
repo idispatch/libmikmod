@@ -860,4 +860,3 @@ MISSING(drv_ultra);
 #endif
 #endif // DRV_ULTRA
 
-/* ex:set ts=4: */

@@ -515,4 +515,3 @@ void SL_HalveSample(SAMPLOAD* s,int factor)
 }
 
 
-/* ex:set ts=4: */

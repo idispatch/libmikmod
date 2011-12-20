@@ -155,7 +155,7 @@ static void GP32_PlayStop(void)
 
 }
 
-MIKMODAPI MDRIVER drv_gp32={
+MDRIVER drv_gp32={
 	NULL,
 	"GP32 SDK Audio v0.1",
 	"GP32 SDK Audio driver v0.1",
@@ -195,4 +195,3 @@ MISSING(drv_gp32);
 #endif
 #endif
 
-/* ex:set ts=4: */

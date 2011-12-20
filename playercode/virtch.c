@@ -1314,4 +1314,3 @@ BOOL VC1_SetNumVoices(void)
 	return 0;
 }
 
-/* ex:set ts=4: */

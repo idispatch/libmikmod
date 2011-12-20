@@ -509,4 +509,3 @@ MIKMODAPI MLOADER load_mod = {
 	MOD_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

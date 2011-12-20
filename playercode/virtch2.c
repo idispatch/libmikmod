@@ -1319,4 +1319,3 @@ BOOL VC2_SetNumVoices(void)
 	return 0;
 }
 
-/* ex:set ts=4: */

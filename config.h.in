@@ -46,6 +46,8 @@
 #undef DRV_HP
 /* Define if the Network Audio System driver is compiled */
 #undef DRV_NAS
+/* Define if the driver for no sound is compiled */
+#undef DRV_NOS
 /* Define if the Open Sound System driver is compiled */
 #undef DRV_OSS
 /* Define if the Linux SAM9407 driver is compiled */
@@ -63,6 +65,10 @@
 #undef DRV_MAC
 /* Define this if you want the gp32 audio driver */
 #undef DRV_GP32
+/* Define this if you want the driver for output to a file called MUSIC.WAV */
+#undef DRV_WAV
+/* Define this if you want the driver for raw output to process stdout */
+#undef DRV_STDOUT
 
 /* Define if you want a debug version of the library */
 #undef MIKMOD_DEBUG

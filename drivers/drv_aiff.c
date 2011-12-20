@@ -334,7 +334,7 @@ static void	AIFF_Update (void)
 /*________________________________________________________________________________________________drv_osx
 */
 
-MIKMODAPI MDRIVER drv_aiff = {
+MDRIVER drv_aiff = {
     NULL,
     "Disk writer (aiff)",
     "AIFF disk writer (music.aiff) v1.1",

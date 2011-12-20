@@ -101,4 +101,3 @@ void MikMod_RegisterAllLoaders(void)
 	MikMod_RegisterAllLoaders_internal();
 	MUTEX_UNLOCK(lists);
 }
-/* ex:set ts=4: */

@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-
   MikMod sound library internal definitions
 
 ==============================================================================*/
@@ -37,7 +36,9 @@ extern "C" {
 #define strcasecmp(s,t) stricmp(s,t)
 #endif
 
+#ifndef MIKMOD_BUILD_H_INCLUDED
 #include <mikmod_build.h>
+#endif
 
 /*========== More type definitions */
 
@@ -726,9 +727,9 @@ static inline const vector float vec_setzero()
 
 static inline vector signed char vec_set1_8(unsigned char splatchar)
 {
-	vector unsigned char splatmap = vec_lvsl(0, &splatchar); 
-	vector unsigned char result = vec_lde(0, &splatchar);       
-	splatmap = vec_splat(splatmap, 0);        
+	vector unsigned char splatmap = vec_lvsl(0, &splatchar);
+	vector unsigned char result = vec_lde(0, &splatchar);
+	splatmap = vec_splat(splatmap, 0);
 	return (vector signed char)vec_perm(result, result, splatmap);
 }
 
@@ -759,8 +760,8 @@ static inline vector signed int vec_hiqq(vector signed int a)
 #define EXTRACT_SAMPLE_SIMD_0(srce, var) var = vec_sra(vec_sra(vec_ld(0, (vector signed int*)(srce)), vec_splat_u32(15)), vec_splat_u32(BITSHIFT+16-15-0));
 #define EXTRACT_SAMPLE_SIMD_8(srce, var) var = vec_sra(vec_sra(vec_ld(0, (vector signed int*)(srce)), vec_splat_u32(15)), vec_splat_u32(BITSHIFT+16-15-8));
 #define EXTRACT_SAMPLE_SIMD_16(srce, var) var = vec_sra(vec_ld(0, (vector signed int*)(srce)), vec_splat_u32(BITSHIFT+16-16));
-#define PUT_SAMPLE_SIMD_W(dste, v1, v2)  vec_st(vec_packs(v1, v2), 0, dste); 
-#define PUT_SAMPLE_SIMD_B(dste, v1, v2, v3, v4)  vec_st(vec_add(vec_packs((vector signed short)vec_packs(v1, v2), (vector signed short)vec_packs(v3, v4)), vec_set1_8(128)), 0, dste); 
+#define PUT_SAMPLE_SIMD_W(dste, v1, v2)  vec_st(vec_packs(v1, v2), 0, dste);
+#define PUT_SAMPLE_SIMD_B(dste, v1, v2, v3, v4)  vec_st(vec_add(vec_packs((vector signed short)vec_packs(v1, v2), (vector signed short)vec_packs(v3, v4)), vec_set1_8(128)), 0, dste);
 #define PUT_SAMPLE_SIMD_F(dste, v1)  vec_st(v1, 0, dste);
 #define LOAD_PS1_SIMD(ptr) vec_load_ps1(ptr)
 
@@ -776,13 +777,13 @@ static __inline __m128i mm_hiqq(const __m128i a)
 }
 
 /* 128-bit mixing macros */
-#define EXTRACT_SAMPLE_SIMD(srce, var, size) var = _mm_srai_epi32(_mm_load_si128((__m128i*)(srce)), BITSHIFT+16-size); 
-#define EXTRACT_SAMPLE_SIMD_F(srce, var, size, mul) var = _mm_mul_ps(_mm_cvtepi32_ps(_mm_srai_epi32(_mm_load_si128((__m128i*)(srce)), BITSHIFT-size)), mul); 
+#define EXTRACT_SAMPLE_SIMD(srce, var, size) var = _mm_srai_epi32(_mm_load_si128((__m128i*)(srce)), BITSHIFT+16-size);
+#define EXTRACT_SAMPLE_SIMD_F(srce, var, size, mul) var = _mm_mul_ps(_mm_cvtepi32_ps(_mm_srai_epi32(_mm_load_si128((__m128i*)(srce)), BITSHIFT-size)), mul);
 #define EXTRACT_SAMPLE_SIMD_0(srce, var) EXTRACT_SAMPLE_SIMD(srce, var, 0)
 #define EXTRACT_SAMPLE_SIMD_8(srce, var) EXTRACT_SAMPLE_SIMD(srce, var, 8)
 #define EXTRACT_SAMPLE_SIMD_16(srce, var) EXTRACT_SAMPLE_SIMD(srce, var, 16)
-#define PUT_SAMPLE_SIMD_W(dste, v1, v2)  _mm_store_si128((__m128i*)(dste), _mm_packs_epi32(v1, v2)); 
-#define PUT_SAMPLE_SIMD_B(dste, v1, v2, v3, v4)  _mm_store_si128((__m128i*)(dste), _mm_add_epi8(_mm_packs_epi16(_mm_packs_epi32(v1, v2), _mm_packs_epi32(v3, v4)), _mm_set1_epi8(128))); 
+#define PUT_SAMPLE_SIMD_W(dste, v1, v2)  _mm_store_si128((__m128i*)(dste), _mm_packs_epi32(v1, v2));
+#define PUT_SAMPLE_SIMD_B(dste, v1, v2, v3, v4)  _mm_store_si128((__m128i*)(dste), _mm_add_epi8(_mm_packs_epi16(_mm_packs_epi32(v1, v2), _mm_packs_epi32(v3, v4)), _mm_set1_epi8(128)));
 #define PUT_SAMPLE_SIMD_F(dste, v1)  _mm_store_ps((float*)(dste), v1);
 #define LOAD_PS1_SIMD(ptr) _mm_load_ps1(ptr)
 #define simd_m128i __m128i
@@ -793,4 +794,3 @@ static __inline __m128i mm_hiqq(const __m128i a)
 
 #endif
 
-/* ex:set ts=4: */

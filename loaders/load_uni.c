@@ -715,4 +715,3 @@ MIKMODAPI MLOADER load_uni={
 };
 
 #endif
-/* ex:set ts=4: */

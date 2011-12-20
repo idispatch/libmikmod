@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(include/mikmod.h.in)
+AC_INIT(include/mikmod.h.in, 3.2.0)
 
 LIBMIKMOD_MAJOR_VERSION=3
 LIBMIKMOD_MINOR_VERSION=2
@@ -36,6 +36,7 @@ libmikmod_driver_aix=no
 libmikmod_driver_alsa=yes
 libmikmod_driver_qsa=no
 libmikmod_driver_esd=yes
+libmikmod_driver_nos=yes
 libmikmod_driver_nas=no
 libmikmod_driver_hp=no
 libmikmod_driver_oss=yes
@@ -125,6 +126,15 @@ then
   libmikmod_driver_nas=yes
 else
   libmikmod_driver_nas=no
+fi])
+
+AC_ARG_ENABLE(nos,         
+[  --enable-nos            include the driver for no sound [default=yes]],
+[if test "$enableval" = "yes"
+then
+  libmikmod_driver_nos=yes
+else
+  libmikmod_driver_nos=no
 fi])
 
 AC_ARG_ENABLE(oss,
@@ -759,6 +769,10 @@ case `uname` in
 		if test $ac_cv_header_sys_asoundlib_h = yes
 		then
 			libmikmod_driver_qsa=yes
+		fi
+		if test $libmikmod_driver_qsa = yes
+		then
+			libmikmod_driverlist="qnx $libmikmod_driverlist"
 			AC_DEFINE(DRV_QSA)
 		fi
 	;;
@@ -818,6 +832,12 @@ then
 	LIBRARY_LIB="-laudio $LIBRARY_LIB"
 fi
 
+if test $libmikmod_driver_nos = yes
+then
+	libmikmod_driverlist="nos $libmikmod_driverlist"
+	AC_DEFINE(DRV_NOS)	
+fi
+
 if test $libmikmod_driver_esd = yes
 then
 	libmikmod_driverlist="$libmikmod_driverlist esd"
@@ -861,8 +881,7 @@ then
 	then
 		AC_CHECK_HEADERS(machine/soundcard.h)
 		AC_CHECK_HEADERS(sys/soundcard.h)
-		if test $ac_cv_header_machine_soundcard_h = yes || \
-		   test $ac_cv_header_sys_soundcard_h = yes
+		if test $ac_cv_header_machine_soundcard_h = yes || test $ac_cv_header_sys_soundcard_h = yes
 		then
 			libmikmod_driverlist="oss $libmikmod_driverlist"
 			AC_DEFINE(DRV_OSS)
@@ -1159,36 +1178,7 @@ AC_SUBST(SPEC_PRERELEASE)
 
 AC_SUBST(LIB_LDADD)
 
-AC_OUTPUT(
-libmikmod-config
-libmikmod.spec
-Makefile
-docs/Makefile
-docs/libmikmod-config.1
-dlapi/Makefile
-drivers/Makefile
-include/Makefile
-include/mikmod.h
-include/mikmod_build.h:include/mikmod.h.in
-libmikmod/Makefile
-loaders/Makefile
-mmio/Makefile
-playercode/Makefile
-posix/Makefile
-macintosh/Makefile
-macintosh/mikmod.h
-macintosh/_libmikmodversion.r
-macosx/mikmod.h
-macosx/Info.plist
-macosx/InfoPlist.strings
-os2/Makefile
-dos/Makefile
-dos/include/Makefile
-dos/src/Makefile
-win32/Makefile,
-
-chmod +x libmikmod-config,
-cat macintosh/_libmikmodversion.r | tr '\n' '\r' > macintosh/libmikmodversion.r )
+AC_OUTPUT
 
 # ====================
 # Print configuration.

@@ -69,7 +69,7 @@ static void NS_Update(void)
 		VC_WriteBytes(zerobuf,ZEROLEN);
 }
 
-MIKMODAPI MDRIVER drv_nos={
+MDRIVER drv_nos={
 	NULL,
 	"No Sound",
 	"Nosound Driver v3.0",
@@ -104,4 +104,3 @@ MIKMODAPI MDRIVER drv_nos={
 };
 
 #endif
-/* ex:set ts=4: */

@@ -365,4 +365,3 @@ MIKMODAPI MLOADER load_669={
 	S69_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

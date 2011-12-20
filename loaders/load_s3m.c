@@ -467,4 +467,3 @@ MIKMODAPI MLOADER load_s3m={
 	S3M_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

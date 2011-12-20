@@ -325,4 +325,3 @@ void irq_detect_clear()
 		enable();
 }
 #endif
-/* ex:set ts=4: */

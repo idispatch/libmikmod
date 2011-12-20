@@ -493,7 +493,7 @@ static void MAC_Update(void)
 	return;
 }
 
-MIKMODAPI MDRIVER drv_mac={
+MDRIVER drv_mac={
     NULL,
     "Mac Driver (Carbonized)",
     "Macintosh Sound Manager Driver v2.1",
@@ -533,5 +533,4 @@ MISSING(drv_mac);
 #endif
 #endif
 
-/* ex:set ts=4: */
 

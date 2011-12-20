@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -216,7 +216,7 @@ void _mm_registerdriver(struct MDRIVER* drv)
 			}
 			cruise->next = drv;
 		} else
-			firstdriver = drv; 
+			firstdriver = drv;
 	}
 }
 
@@ -521,7 +521,11 @@ static BOOL _mm_init(CHAR *cmdline)
 		if(!md_driver) {
 			_mm_errno = MMERR_DETECTING_DEVICE;
 			if(_mm_errorhandler) _mm_errorhandler();
+#if DRV_NOS
 			md_driver = &drv_nos;
+#else
+			md_driver = NULL;
+#endif
 			return 1;
 		}
 
@@ -534,7 +538,11 @@ static BOOL _mm_init(CHAR *cmdline)
 		if(!md_driver) {
 			_mm_errno = MMERR_INVALID_DEVICE;
 			if(_mm_errorhandler) _mm_errorhandler();
+#if DRV_NOS
 			md_driver = &drv_nos;
+#else
+			md_driver = NULL;
+#endif
 			return 1;
 		}
 
@@ -545,7 +553,11 @@ static BOOL _mm_init(CHAR *cmdline)
 		if(!md_driver->IsPresent()) {
 			_mm_errno = MMERR_DETECTING_DEVICE;
 			if(_mm_errorhandler) _mm_errorhandler();
+#if DRV_NOS
 			md_driver = &drv_nos;
+#else
+			md_driver = NULL;
+#endif
 			return 1;
 		}
 	}
@@ -581,7 +593,11 @@ static void MikMod_Exit_internal(void)
 	MikMod_DisableOutput_internal();
 	md_driver->Exit();
 	md_numchn = md_sfxchn = md_sngchn = 0;
+#if DRV_NOS
 	md_driver = &drv_nos;
+#else
+	md_driver = NULL;
+#endif
 
 	if(sfxinfo) MikMod_free(sfxinfo);
 	if(md_sample) MikMod_free(md_sample);
@@ -600,14 +616,14 @@ MIKMODAPI void MikMod_Exit(void)
 	MUTEX_UNLOCK(vars);
 }
 
-/* Reset the driver using the new global variable settings. 
+/* Reset the driver using the new global variable settings.
    If the driver has not been initialized, it will be now. */
 static BOOL _mm_reset(CHAR *cmdline)
 {
 	BOOL wasplaying = 0;
 
 	if(!initialized) return _mm_init(cmdline);
-	
+
 	if (isplaying) {
 		wasplaying = 1;
 		md_driver->PlayStop();
@@ -631,7 +647,7 @@ static BOOL _mm_reset(CHAR *cmdline)
 			return 1;
 		}
 	}
-	
+
 	if (wasplaying) md_driver->PlayStart();
 	return 0;
 }
@@ -845,7 +861,7 @@ MIKMODAPI BOOL MikMod_InitThreads(void)
 {
 	static int firstcall=1;
 	static int result=0;
-	
+
 	if (firstcall) {
 		firstcall=0;
 #ifdef HAVE_PTHREAD
@@ -935,7 +951,7 @@ BOOL MD_Access(CHAR *filename)
 		} else
 			if(!(buf.st_mode&S_IWOTH)) return 0;
 	}
-	
+
 	return 1;
 }
 
@@ -963,4 +979,3 @@ BOOL MD_DropPrivileges(void)
 
 #endif
 
-/* ex:set ts=4: */

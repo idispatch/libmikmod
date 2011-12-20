@@ -612,4 +612,3 @@ MIKMODAPI MODULE* Player_Load(CHAR* filename,int maxchan,BOOL curious)
 	return mf;
 }
 
-/* ex:set ts=4: */

@@ -472,7 +472,7 @@ static ULONG voiceRealVolume(UBYTE voice)
 	return 0;
 }
 
-MIKMODAPI MDRIVER drv_sam9407={
+MDRIVER drv_sam9407={
 	NULL,
 	"sam9407 driver",
 	"Linux sam9407 driver v1.0",
@@ -512,4 +512,3 @@ MISSING(drv_sam9407);
 #endif
 #endif
 
-/* ex:set ts=4: */

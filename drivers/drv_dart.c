@@ -272,7 +272,7 @@ static void Dart_PlayStop(void)
 	VC_PlayStop();
 }
 
-MIKMODAPI MDRIVER drv_dart = {
+MDRIVER drv_dart = {
 	NULL,
 	"Direct audio (DART)",
 	"OS/2 DART driver v1.2",
@@ -314,4 +314,3 @@ MISSING(drv_dart);
 #endif
 #endif
 
-/* ex:set ts=4: */

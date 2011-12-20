@@ -178,7 +178,7 @@ static void AF_Update(void)
 	}
 }
 
-MIKMODAPI MDRIVER drv_AF={
+MDRIVER drv_AF={
 	NULL,
 	"AF driver",
 	"AudioFile driver v1.3",
@@ -220,4 +220,3 @@ MISSING(drv_AF);
 
 #endif
 
-/* ex:set ts=4: */

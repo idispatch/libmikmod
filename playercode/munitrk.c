@@ -299,4 +299,3 @@ void UniCleanup(void)
 	unibuf = NULL;
 }
 
-/* ex:set ts=4: */

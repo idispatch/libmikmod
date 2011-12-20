@@ -716,4 +716,3 @@ MIKMODAPI MLOADER load_med = {
 	MED_LoadTitle
 };
 #endif
-/* ex:set ts=4: */

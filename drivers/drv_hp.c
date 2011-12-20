@@ -160,7 +160,7 @@ static void HP_Update(void)
 	write(fd,audiobuffer,VC_WriteBytes(audiobuffer,buffersize));
 }
 
-MIKMODAPI MDRIVER drv_hp={
+MDRIVER drv_hp={
 	NULL,
 	"HP-UX Audio",
 	"HP-UX Audio driver v1.3",
@@ -201,4 +201,3 @@ MISSING(drv_hp);
 #endif
 #endif
 
-/* ex:set ts=4: */

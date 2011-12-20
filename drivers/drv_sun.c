@@ -454,7 +454,7 @@ static void Sun_PlayStop(void)
 	ioctl(sndfd, AUDIO_SETINFO, &audioinfo);
 }
 
-MIKMODAPI MDRIVER drv_sun = {
+MDRIVER drv_sun = {
 	NULL,
 #if defined __OpenBSD__
 	"OpenBSD Audio",
@@ -511,4 +511,3 @@ MISSING(drv_sun);
 #endif
 #endif
 
-/* ex:set ts=4: */

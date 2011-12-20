@@ -343,4 +343,3 @@ MIKMODAPI MLOADER load_far={
 	FAR_LoadTitle
 };
 #endif
-/* ex:set ts=4: */
