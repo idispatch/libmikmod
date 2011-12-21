@@ -47,6 +47,7 @@
 
 #include "mikmod_internals.h"
 
+#if defined DRV_OSS || defined DRV_SUN
 static unsigned char ulaw_comp_table[16384] = {
 	0xff, 0xfe, 0xfe, 0xfd, 0xfd, 0xfc, 0xfc, 0xfb,
 	0xfb, 0xfa, 0xfa, 0xf9, 0xf9, 0xf8, 0xf8, 0xf7,
@@ -2114,4 +2115,4 @@ void unsignedtoulaw(char *buf, int nsamp)
 		*buf++ = (char)datum;
 	}
 }
-
+#endif

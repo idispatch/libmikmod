@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-
   Error handling functions.
   Register an error handler with _mm_RegisterErrorHandler() and you're all set.
 
@@ -181,7 +180,8 @@ static CHAR *_mm_errmsg[MMERR_MAX+1] =
 
 MIKMODAPI char *MikMod_strerror(int code)
 {
-	if ((code<0)||(code>MMERR_MAX)) code=MMERR_MAX+1;
+	if ((code<0)||(code>MMERR_MAX)) 
+	    code=MMERR_MAX+1;
 	return _mm_errmsg[code];
 }
 
@@ -193,7 +193,6 @@ MIKMODAPI BOOL _mm_critical = 0;
 static MikMod_handler_t _mm_registererrorhandler(MikMod_handler_t proc)
 {
 	MikMod_handler_t oldproc=_mm_errorhandler;
-
 	_mm_errorhandler = proc;
 	return oldproc;
 }
@@ -203,7 +202,7 @@ MIKMODAPI MikMod_handler_t MikMod_RegisterErrorHandler(MikMod_handler_t proc)
 	MikMod_handler_t result;
 
 	MUTEX_LOCK(vars);
-		result=_mm_registererrorhandler(proc);
+	result=_mm_registererrorhandler(proc);
 	MUTEX_UNLOCK(vars);
 
 	return result;

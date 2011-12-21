@@ -38,7 +38,11 @@
 #ifdef HAVE_MEMORY_H
 #include <memory.h>
 #endif
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
+#endif
 
+#include <sys/select.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -47,13 +51,150 @@
 #include <sys/asoundlib.h>
 #endif
 
-#define DEFAULT_NUMFRAGS 4
+#define DEFAULT_NUMFRAGS 8
+
+#ifdef MIKMOD_DEBUG
+//#define QNX_MIKMOD_PROFILING
+#endif
+
+#ifdef QNX_MIKMOD_PROFILING
+#include <time.h>
+#include <float.h>
+#endif
 
 static snd_pcm_t *playback_handle = NULL;
 static int fragmentsize, numfrags = DEFAULT_NUMFRAGS;
 static SBYTE *audiobuffer = NULL;
-
+#if QNX_MIKMOD_PLAY_THREAD
+static int pcm_fd = 0;
+static pthread_t player_thread;
+#endif
 static int num_devices;
+
+#ifdef QNX_MIKMOD_PROFILING
+#define STATS_COUNT 1000
+typedef double stat_type;
+static unsigned int dbg_num_writes = 0;
+static unsigned int dbg_num_prepares = 0;
+static unsigned int dbg_num_rewrites = 0;
+static stat_type dbg_time_mixing[STATS_COUNT];
+static stat_type dbg_time_select[STATS_COUNT];
+static stat_type dbg_time_write[STATS_COUNT];
+static stat_type dbg_time_status[STATS_COUNT];
+static stat_type dbg_time_prepare[STATS_COUNT];
+
+static void dbg_stats(stat_type data[],
+						unsigned int size,
+						stat_type *pmini,
+						stat_type *pmaxi,
+						stat_type *pavg,
+						stat_type *total) {
+	unsigned int i;
+	stat_type avg = 0, mini = DBL_MAX, maxi = DBL_MIN;
+	for(i = 0; i < size; i++){
+		mini = min(data[i], mini);
+		maxi = max(data[i], maxi);
+		avg += data[i];
+	}
+	*pmini = mini;
+	*pmaxi = maxi;
+	*total = avg;
+	*pavg = avg / (stat_type)size;
+}
+
+static void prn_stats() {
+	if((dbg_num_writes % STATS_COUNT) == STATS_COUNT-1){
+		dbg_stats(dbg_time_mixing,
+				STATS_COUNT,
+				&dbg_time_mixing[0],
+				&dbg_time_mixing[1],
+				&dbg_time_mixing[2],
+				&dbg_time_mixing[3]);
+		dbg_stats(dbg_time_select,
+				STATS_COUNT,
+				&dbg_time_select[0],
+				&dbg_time_select[1],
+				&dbg_time_select[2],
+				&dbg_time_select[3]);
+		dbg_stats(dbg_time_write,
+				STATS_COUNT,
+				&dbg_time_write[0],
+				&dbg_time_write[1],
+				&dbg_time_write[2],
+				&dbg_time_write[3]);
+		dbg_stats(dbg_time_status,
+				STATS_COUNT,
+				&dbg_time_status[0],
+				&dbg_time_status[1],
+				&dbg_time_status[2],
+				&dbg_time_status[3]);
+		dbg_stats(dbg_time_status,
+				STATS_COUNT,
+				&dbg_time_status[0],
+				&dbg_time_status[1],
+				&dbg_time_status[2],
+				&dbg_time_status[3]);
+		dbg_stats(dbg_time_prepare,
+				STATS_COUNT,
+				&dbg_time_prepare[0],
+				&dbg_time_prepare[1],
+				&dbg_time_prepare[2],
+				&dbg_time_prepare[3]);
+
+		fprintf(stderr, "\nWrite count=%d, prepares=%d, rewrites=%d\n",
+				dbg_num_writes+1,
+				dbg_num_prepares,
+				dbg_num_rewrites);
+		fprintf(stderr, "Select:  min=%9.6f, max=%9.6f, avg=%9.6f, total=%9.6f\n",
+						dbg_time_select[0],
+						dbg_time_select[1],
+						dbg_time_select[2],
+						dbg_time_select[3]);
+		fprintf(stderr, "Mixing:  min=%9.6f, max=%9.6f, avg=%9.6f, total=%9.6f\n",
+						dbg_time_mixing[0],
+						dbg_time_mixing[1],
+						dbg_time_mixing[2],
+						dbg_time_mixing[3]);
+		fprintf(stderr, "Write:   min=%9.6f, max=%9.6f, avg=%9.6f, total=%9.6f\n",
+						dbg_time_write[0],
+						dbg_time_write[1],
+						dbg_time_write[2],
+						dbg_time_write[3]);
+		fprintf(stderr, "Status:  min=%9.6f, max=%9.6f, avg=%9.6f, total=%9.6f\n",
+						dbg_time_status[0],
+						dbg_time_status[1],
+						dbg_time_status[2],
+						dbg_time_status[3]);
+		fprintf(stderr, "Prepare: min=%9.6f, max=%9.6f, avg=%9.6f, total=%9.6f\n",
+						dbg_time_prepare[0],
+						dbg_time_prepare[1],
+						dbg_time_prepare[2],
+						dbg_time_prepare[3]);
+
+		dbg_num_prepares = 0;
+		dbg_num_rewrites = 0;
+	}
+	dbg_num_writes++;
+}
+
+static stat_type diff(struct timespec start, struct timespec end)
+{
+	struct timespec temp;
+	if ((end.tv_nsec-start.tv_nsec)<0) {
+		temp.tv_sec = end.tv_sec-start.tv_sec-1;
+		temp.tv_nsec = 1000000000+end.tv_nsec-start.tv_nsec;
+	} else {
+		temp.tv_sec = end.tv_sec-start.tv_sec;
+		temp.tv_nsec = end.tv_nsec-start.tv_nsec;
+	}
+	return (stat_type)temp.tv_sec + (stat_type)temp.tv_nsec / 1000000000.;
+}
+#endif
+
+static void qsa_update(void);
+#if QNX_MIKMOD_PLAY_THREAD
+static void* player_thread_function(void* data);
+#endif
 
 static void qsa_command_line(CHAR *cmdline) {
 	CHAR *ptr;
@@ -135,6 +276,10 @@ static BOOL qsa_init_impl(void) {
 #endif
 	}
 
+#if QNX_MIKMOD_PLAY_THREAD
+	pcm_fd = snd_pcm_file_descriptor(playback_handle, SND_PCM_CHANNEL_PLAYBACK);
+#endif
+
 	memset(&channel_info, 0, sizeof(channel_info));
 	channel_info.channel = SND_PCM_CHANNEL_PLAYBACK;
 	/* Get information about a PCM channel's capabilities from a control handle */
@@ -169,7 +314,7 @@ static BOOL qsa_init_impl(void) {
 		return 1;
 	}
 
-	fragmentsize = channel_info.max_fragment_size / numfrags;
+	fragmentsize = channel_info.max_fragment_size;
 
 	if ((err = snd_pcm_plugin_set_disable(playback_handle,
 											PLUGIN_DISABLE_BUFFER_PARTIAL_BLOCKS)) < 0) {
@@ -241,18 +386,57 @@ static BOOL qsa_init_impl(void) {
 		return 1;
 	}
 
-	if (!(audiobuffer = (SBYTE*)MikMod_malloc(4 * fragmentsize))) {
+	fragmentsize = channel_setup.buf.block.frag_size;
+	if (!(audiobuffer = (SBYTE*)MikMod_malloc(fragmentsize))) {
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
 	}
 
-	return VC_Init();
+	err = VC_Init();
+	return err;
 }
 
 static BOOL qsa_init(void) {
 	return qsa_init_impl();
 }
+
+#ifdef QNX_MIKMOD_PLAY_THREAD
+static void* player_thread_function(void* data) {
+	int err;
+	fd_set wset;
+#ifdef QNX_MIKMOD_PROFILING
+	struct timespec select_start, select_end;
+#endif
+	while(1){
+		FD_ZERO(&wset);
+		FD_SET(pcm_fd, &wset);
+#ifdef QNX_MIKMOD_PROFILING
+		clock_gettime(CLOCK_MONOTONIC, &select_start);
+#endif
+		err = select(1 + pcm_fd, NULL, &wset, NULL, NULL);
+#ifdef QNX_MIKMOD_PROFILING
+		clock_gettime(CLOCK_MONOTONIC, &select_end);
+		dbg_time_select[dbg_num_writes % STATS_COUNT] = diff(select_start, select_end);
+#endif
+		if(err == -1){
+#if MIKMOD_DEBUG
+			fprintf(stderr, "select: %s\n", strerror(err));
+#endif
+		} else if FD_ISSET(pcm_fd, &wset) {
+			qsa_update();
+		} else {
+#if MIKMOD_DEBUG
+			fprintf(stderr, "select: unexpected return %d\n", err);
+#endif
+		}
+#ifdef QNX_MIKMOD_PROFILING
+		prn_stats();
+#endif
+	}
+	return 0;
+}
+#endif
 
 static void qsa_exit_impl(void) {
 	VC_Exit();
@@ -261,6 +445,10 @@ static void qsa_exit_impl(void) {
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 	}
+#if QNX_MIKMOD_PLAY_THREAD
+	pthread_join(player_thread, NULL);
+	pcm_fd = 0;
+#endif
 	MikMod_free(audiobuffer);
 	audiobuffer = NULL;
 	num_devices = 0;
@@ -270,50 +458,108 @@ static void qsa_exit(void) {
 	qsa_exit_impl();
 }
 
+#ifdef QNX_MIKMOD_PLAY_THREAD
+static void qsa_update_dummy(void){}
+#endif
+
 static void qsa_update(void) {
 	int err;
 	snd_pcm_channel_status_t status;
+#ifdef QNX_MIKMOD_PROFILING
+	struct timespec write_start, write_end,
+					mix_start, mix_end,
+					status_start, status_end,
+					prepare_start, prepare_end;
+	clock_gettime(CLOCK_MONOTONIC, &mix_start);
+#endif
+	int count = VC_WriteBytes(audiobuffer, fragmentsize);
+#ifdef QNX_MIKMOD_PROFILING
+	clock_gettime(CLOCK_MONOTONIC, &mix_end);
+	dbg_time_mixing[dbg_num_writes % STATS_COUNT] = diff(mix_start, mix_end);
+	clock_gettime(CLOCK_MONOTONIC, &write_start);
+#endif
 	err = snd_pcm_plugin_write(playback_handle,
 								audiobuffer,
-								VC_WriteBytes(audiobuffer, fragmentsize));
+								count);
+#ifdef QNX_MIKMOD_PROFILING
+	clock_gettime(CLOCK_MONOTONIC, &write_end);
+	dbg_time_write[dbg_num_writes % STATS_COUNT] = diff(write_start, write_end);
+#endif
 	if(err < fragmentsize) {
 		memset(&status, 0, sizeof(status));
 		status.channel = SND_PCM_CHANNEL_PLAYBACK;
+#ifdef QNX_MIKMOD_PROFILING
+		clock_gettime(CLOCK_MONOTONIC, &status_start);
+#endif
 		if ((err = snd_pcm_plugin_status(playback_handle, &status)) < 0) {
 #ifdef MIKMOD_DEBUG
 			fprintf(stderr,"snd_pcm_plugin_status: %s\n", snd_strerror(err));
 #endif
 		} else {
+#ifdef QNX_MIKMOD_PROFILING
+			clock_gettime(CLOCK_MONOTONIC, &status_end);
+			dbg_time_status[dbg_num_writes % STATS_COUNT] = diff(status_start, status_end);
+#endif
 			if (status.status == SND_PCM_STATUS_READY ||
 				status.status == SND_PCM_STATUS_UNDERRUN) {
-				if (snd_pcm_plugin_prepare (playback_handle, SND_PCM_CHANNEL_PLAYBACK) < 0) {
+#ifdef QNX_MIKMOD_PROFILING
+				dbg_num_prepares++;
+				clock_gettime(CLOCK_MONOTONIC, &prepare_start);
+#endif
+				if (snd_pcm_plugin_prepare(playback_handle, SND_PCM_CHANNEL_PLAYBACK) < 0) {
 #ifdef MIKMOD_DEBUG
 					fprintf(stderr,"snd_pcm_plugin_prepare: %s\n", snd_strerror(err));
 #endif
 				}
+#ifdef QNX_MIKMOD_PROFILING
+				clock_gettime(CLOCK_MONOTONIC, &prepare_end);
+				dbg_time_prepare[dbg_num_writes % STATS_COUNT] = diff(prepare_start, prepare_end);
+				dbg_num_rewrites++;
+				clock_gettime(CLOCK_MONOTONIC, &write_start);
+#endif
 				err = snd_pcm_plugin_write(playback_handle,
 											audiobuffer,
-											VC_WriteBytes(audiobuffer, fragmentsize));
+											count);
 #ifdef MIKMOD_DEBUG
 				if(err!=fragmentsize) {
 					fprintf(stderr,"snd_pcm_plugin_write: %d (%s)\n", err, snd_strerror(err));
 				}
 #endif
+#ifdef QNX_MIKMOD_PROFILING
+				clock_gettime(CLOCK_MONOTONIC, &write_end);
+				dbg_time_write[dbg_num_writes % STATS_COUNT] = diff(write_start, write_end);
+#endif
 			} else {
 				fprintf(stderr,"snd_pcm_plugin_write: status %d)\n", status.status);
+#ifdef QNX_MIKMOD_PROFILING
+				dbg_time_prepare[dbg_num_writes % STATS_COUNT] = 0;
+#endif
 			}
 		}
 	}
 }
 
 static void qsa_play_stop(void) {
-	VC_PlayStop();
 	snd_pcm_playback_flush(playback_handle);
+	VC_PlayStop();
 }
 
 static BOOL qsa_reset(void) {
 	qsa_exit_impl();
 	return qsa_init_impl();
+}
+
+static BOOL qsa_play_start(void){
+#ifdef QNX_MIKMOD_PLAY_THREAD
+	int err;
+	if((err = pthread_create(&player_thread, NULL, player_thread_function, NULL)) != EOK) {
+#if MIKMOD_DEBUG
+		fprintf(stderr, "pthread_create: %s\n", strerror(err));
+#endif
+		return 1;
+	}
+#endif
+	return VC_PlayStart();
 }
 
 MIKMODAPI MDRIVER drv_qsa = {
@@ -334,9 +580,13 @@ MIKMODAPI MDRIVER drv_qsa = {
 	qsa_exit,
 	qsa_reset,
 	VC_SetNumVoices,
-	VC_PlayStart,
+	qsa_play_start,
 	qsa_play_stop,
+#if QNX_MIKMOD_PLAY_THREAD
+	qsa_update_dummy,
+#else
 	qsa_update,
+#endif
 	NULL,
 	VC_VoiceSetVolume,
 	VC_VoiceGetVolume,

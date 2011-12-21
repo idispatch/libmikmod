@@ -48,7 +48,6 @@ extern int fprintf(FILE *, const char *, ...);
 
 static void extract_channel(const char *src, char *dst, int num_chan, int num_samples, int samp_size, int channel);;
 
-
 typedef struct WAV {
 	CHAR  rID[4];
 	ULONG rLen;
@@ -240,8 +239,6 @@ SAMPLE* Sample_LoadRawGeneric_internal(MREADER* reader, ULONG rate, ULONG channe
 	_mm_fseek(reader, 0, SEEK_SET);
 	SL_RegisterSample(si, MD_SNDFX, reader);
 	SL_LoadSamples();
-
-	
 	
 	return si;
 }
@@ -260,7 +257,6 @@ MIKMODAPI SAMPLE* Sample_LoadRawGeneric(MREADER* reader, ULONG rate, ULONG chann
 	SAMPLE* result;
 
 	MUTEX_LOCK(vars);
-//	result=Sample_LoadRawGeneric_internal(reader, NULL);
 	result = Sample_LoadRawGeneric_internal(reader, rate, channel, flags);
 	MUTEX_UNLOCK(vars);
 
@@ -295,9 +291,9 @@ MIKMODAPI SAMPLE* Sample_LoadRaw(CHAR* filename, ULONG rate, ULONG channel, ULON
 {
 	FILE *fp;
 	SAMPLE *si=NULL;
-
+#ifdef MIKMOD_DEBUG
 	printf("filename: %s\n", filename);
-	
+#endif
 	if(!(md_mode & DMODE_SOFT_SNDFX)) return NULL;
 	if((fp=_mm_fopen(filename,"rb"))) {
 		si = Sample_LoadRawFP(fp, rate, channel, flags);
@@ -374,9 +370,11 @@ void Sample_Free_internal(SAMPLE *si)
 
 static void extract_channel(const char *src, char *dst, int num_chan, int num_samples, int samp_size, int channel)
 {
+#ifdef MIKMOD_DEBUG
 	int i;
 	printf("Extract channel: %p %p, num_chan=%d, num_samples=%d, samp_size=%d, channel=%d\n",
 			src,dst,num_chan,num_samples,samp_size,channel);	
+#endif
 	src += channel * samp_size;	
 	
 	while (num_samples--)

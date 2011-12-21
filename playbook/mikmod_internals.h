@@ -626,8 +626,10 @@ extern void   MD_SampleUnload(SWORD);
 extern ULONG  MD_SampleSpace(int);
 extern ULONG  MD_SampleLength(int,SAMPLE*);
 
+#if defined DRV_OSS || defined DRV_SUN
 /* uLaw conversion */
 extern void unsignedtoulaw(char *,int);
+#endif
 
 /* Parameter extraction helper */
 extern CHAR  *MD_GetAtom(CHAR*,CHAR*,BOOL);

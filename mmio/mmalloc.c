@@ -6,12 +6,12 @@
 	it under the terms of the GNU Library General Public License as
 	published by the Free Software Foundation; either version 2 of
 	the License, or (at your option) any later version.
- 
+
 	This program is distributed in the hope that it will be useful,
 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 	GNU Library General Public License for more details.
- 
+
 	You should have received a copy of the GNU Library General Public
 	License along with this library; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -20,8 +20,10 @@
 
 /*==============================================================================
 
-
   Dynamic memory routines
+
+  On failure will set the _mm_errno = MMERR_OUT_OF_MEMORY and call
+  the error handler if it was setup
 
 ==============================================================================*/
 
@@ -31,6 +33,8 @@
 
 #include "mikmod_internals.h"
 
+#if defined __MACH__ || defined __QNXNTO__
+#else
 #define ALIGN_STRIDE 16
 
 static void * align_pointer(char *ptr, size_t stride)
@@ -52,19 +56,21 @@ static void *get_pointer(void *data)
 	size_t _ptr = *(size_t*)_pptr;
 	return (void*)_ptr;
 }
-
+#endif
 
 void* MikMod_realloc(void *data, size_t size)
 {
 	if (data)
 	{
-#if defined __MACH__
+#if defined __MACH__ || defined __QNXNTO__
 		void *d = realloc(data, size);
-		if (d)
-		{
-			return d;
+		if(!d) {
+			_mm_errno = MMERR_OUT_OF_MEMORY;
+			if(_mm_errorhandler) {
+				_mm_errorhandler();
+			}
 		}
-		return 0;
+		return d;
 #elif (defined _WIN32 || defined _WIN64) && !defined(_WIN32_WCE)
 		return _aligned_realloc(data, size, ALIGN_STRIDE);
 #else
@@ -75,28 +81,32 @@ void* MikMod_realloc(void *data, size_t size)
 	return MikMod_malloc(size);
 }
 
-
 /* Same as malloc, but sets error variable _mm_error when fails. Returns a 16-byte aligned pointer */
 void* MikMod_malloc(size_t size)
 {
-#if defined __MACH__
-	void *d = calloc(1, size);
-	if (d)
-	{
-		return d;
+#if defined __MACH__ || defined __QNXNTO__
+	void *d = malloc(size);
+	if(!d) {
+		_mm_errno = MMERR_OUT_OF_MEMORY;
+		if(_mm_errorhandler) {
+			_mm_errorhandler();
+		}
 	}
-	return 0;
+	return d;
 #elif (defined _WIN32 || defined _WIN64) && !defined(_WIN32_WCE)
 	void * d = _aligned_malloc(size, ALIGN_STRIDE);
-	if (d)
-	{
+	if (d) {
 		ZeroMemory(d, size);
 		return d;
+	} else {
+		_mm_errno = MMERR_OUT_OF_MEMORY;
+		if(_mm_errorhandler) {
+			_mm_errorhandler();
+		}
 	}
 	return 0;
 #else
 	void *d = calloc(1, size + ALIGN_STRIDE + sizeof(void*));
-
 	if(!d) {
 		_mm_errno = MMERR_OUT_OF_MEMORY;
 		if(_mm_errorhandler) _mm_errorhandler();
@@ -108,24 +118,29 @@ void* MikMod_malloc(size_t size)
 /* Same as calloc, but sets error variable _mm_error when fails */
 void* MikMod_calloc(size_t nitems,size_t size)
 {
-#if defined __MACH__
-	void *d = calloc(nitems, size);
-	if (d)
-	{
-		return d;
+#if defined __MACH__ || defined __QNXNTO__
+	void * d = calloc(nitems, size);
+	if(!d) {
+		_mm_errno = MMERR_OUT_OF_MEMORY;
+		if(_mm_errorhandler) {
+			_mm_errorhandler();
+		}
 	}
-	return 0;
+	return d;
 #elif (defined _WIN32 || defined _WIN64) && !defined(_WIN32_WCE)
 	void * d = _aligned_malloc(size * nitems, ALIGN_STRIDE);
-	if (d)
-	{
+	if (d) {
 		ZeroMemory(d, size * nitems);
 		return d;
+	} else {
+		_mm_errno = MMERR_OUT_OF_MEMORY;
+		if(_mm_errorhandler) {
+			_mm_errorhandler();
+		}
 	}
 	return 0;
 #else
 	void *d = calloc(nitems, size + ALIGN_STRIDE + sizeof(void*));
-   
 	if(!d) {
 		_mm_errno = MMERR_OUT_OF_MEMORY;
 		if(_mm_errorhandler) _mm_errorhandler();
@@ -136,15 +151,16 @@ void* MikMod_calloc(size_t nitems,size_t size)
 
 void MikMod_free(void *data)
 {
-	if (data)
-	{
-#if defined __MACH__
-		free(data);
+#if defined __MACH__ || defined __QNXNTO__
+	free(data);
 #elif (defined _WIN32 || defined _WIN64) && !defined(_WIN32_WCE)
+	if (data) {
 		_aligned_free(data);
-#else
-		free(get_pointer(data));
-#endif
 	}
+#else
+	if (data) {
+		free(get_pointer(data));
+	}
+#endif
 }
 

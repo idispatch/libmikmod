@@ -185,3 +185,5 @@
 #undef LDR_UNI
 #define LDR_XM 1
 #undef LDR_M15
+
+#define QNX_MIKMOD_PLAY_THREAD 1

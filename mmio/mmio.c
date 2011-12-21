@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-
   Portable file I/O routines
 
 ==============================================================================*/
@@ -65,8 +64,6 @@ extern int fseek(FILE *, long, int);
 extern size_t fwrite(const void *, size_t, size_t, FILE *);
 #endif
 
-#define COPY_BUFSIZE  1024
-
 /* some prototypes */
 static BOOL _mm_MemReader_Eof(MREADER* reader);
 static BOOL _mm_MemReader_Read(MREADER* reader,void* ptr,size_t size);
@@ -74,15 +71,15 @@ static int _mm_MemReader_Get(MREADER* reader);
 static BOOL _mm_MemReader_Seek(MREADER* reader,long offset,int whence);
 static long _mm_MemReader_Tell(MREADER* reader);
 
-//static long _mm_iobase=0,temp_iobase=0;
-
 FILE* _mm_fopen(CHAR* fname,CHAR* attrib)
 {
 	FILE *fp;
 
 	if(!(fp=fopen(fname,attrib))) {
 		_mm_errno = MMERR_OPENING_FILE;
-		if(_mm_errorhandler) _mm_errorhandler();
+		if(_mm_errorhandler) {
+            _mm_errorhandler();
+        }
 	}
 	return fp;
 }
@@ -90,10 +87,9 @@ FILE* _mm_fopen(CHAR* fname,CHAR* attrib)
 BOOL _mm_FileExists(CHAR* fname)
 {
 	FILE *fp;
-
-	if(!(fp=fopen(fname,"r"))) return 0;
+	if(!(fp=fopen(fname,"r"))) 
+        return 0;
 	fclose(fp);
-
 	return 1;
 }
 
@@ -164,7 +160,9 @@ MREADER *_mm_new_file_reader(FILE* fp)
 
 void _mm_delete_file_reader (MREADER* reader)
 {
-	if(reader) MikMod_free(reader);
+	if(reader) {
+        MikMod_free(reader);
+    }
 }
 
 /*========== File Writer */
@@ -209,7 +207,9 @@ MWRITER *_mm_new_file_writer(FILE* fp)
 
 void _mm_delete_file_writer (MWRITER* writer)
 {
-	if(writer) MikMod_free (writer);
+	if(writer) {
+        MikMod_free (writer);
+    }
 }
 
 /*========== Memory Reader */
@@ -224,7 +224,9 @@ typedef struct MMEMREADER {
 
 void _mm_delete_mem_reader(MREADER* reader)
 {
-	if (reader) { MikMod_free(reader); }
+	if (reader) { 
+        MikMod_free(reader); 
+    }
 }
 
 MREADER *_mm_new_mem_reader(const void *buffer, int len)
@@ -246,7 +248,9 @@ MREADER *_mm_new_mem_reader(const void *buffer, int len)
 
 static BOOL _mm_MemReader_Eof(MREADER* reader)
 {
-	if (!reader) { return 1; }
+	if (!reader) { 
+        return 1; 
+    }
 	if ( ((MMEMREADER*)reader)->pos > ((MMEMREADER*)reader)->len ) { 
 		return 1; 
 	}
@@ -273,12 +277,7 @@ static BOOL _mm_MemReader_Read(MREADER* reader,void* ptr,size_t size)
 
 	((MMEMREADER*)reader)->pos += (long)size;
 
-	while (size--)
-	{
-		*d = *s;
-		s++;
-		d++;	
-	}
+    memcpy(d, s, size);
 	
 	return 1;
 }
