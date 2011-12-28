@@ -2,7 +2,7 @@ EXTRA_DIST = drv_AF.c     \
              drv_aix.c    \
              drv_aiff.c   \
              drv_alsa.c   \
-             drv_qsa.c    \             
+             drv_qsa.c    \
              drv_dart.c   \
              drv_ds.c     \
              drv_esd.c    \
@@ -23,5 +23,4 @@ EXTRA_DIST = drv_AF.c     \
              drv_ultra.c  \
              drv_wav.c    \
              drv_wss.c    \
-             drv_win.c    
-	
+             drv_win.c

@@ -19,6 +19,8 @@
 #undef DRV_AIX
 /* Define if the Linux ALSA driver is compiled */
 #undef DRV_ALSA
+/* Define if the QNX sound driver is compiled */
+#undef DRV_QNX
 /* Define if the Enlightened Sound Daemon driver is compiled */
 #undef DRV_ESD
 /* Define if the HP-UX audio driver is compiled */
@@ -44,7 +46,8 @@
 #undef DRV_MAC
 /* Define this if you want the DOS WSS driver */
 #undef DRV_WSS
-
+/* Define this if you want the no-sound (null) driver */
+#undef DRV_NOS
 /* Define if you want a debug version of the library */
 #undef MIKMOD_DEBUG
 /* Define if you want runtime dynamic linking of ALSA and EsounD drivers */
@@ -70,3 +73,45 @@
 
 /* define this if you are running a bigendian system (motorola, sparc, etc) */
 #undef WORDS_BIGENDIAN
+
+/* Module Loaders*/
+#undef LDR_669
+
+#undef LDR_AMF
+
+#undef LDR_ASY
+
+#undef LDR_DSM
+
+#undef LDR_FAR
+
+#undef LDR_GDM
+
+#undef LDR_GT2
+
+#undef LDR_IT
+
+#undef LDR_IMF
+
+#undef LDR_MOD
+
+#undef LDR_MED
+
+#undef LDR_MTM
+
+#undef LDR_OKT
+
+#undef LDR_S3M
+
+#undef LDR_STM
+
+#undef LDR_STX
+
+#undef LDR_ULT
+
+#undef LDR_UNI
+
+#undef LDR_XM
+
+#undef LDR_M15
+

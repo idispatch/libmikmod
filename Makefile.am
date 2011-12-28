@@ -1,4 +1,5 @@
 AUTOMAKE_OPTIONS = foreign
+ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = drivers include libmikmod loaders mmio playercode \
           docs dlapi macintosh posix os2 dos win32
 

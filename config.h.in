@@ -1,30 +1,12 @@
-/* config.h.in.  Generated automatically from configure.in by autoheader 2.13.  */
+/* config.h.in.  Generated from configure.in by autoheader.  */
+/* ========== Package information */
 
-/* Define if on AIX 3.
-   System headers sometimes define this.
-   We just want to avoid a redefinition error message.  */
-#ifndef _ALL_SOURCE
-#undef _ALL_SOURCE
-#endif
+/* Package name (libmikmod) */
+#undef PACKAGE
+/* Package version */
+#undef VERSION
 
-/* Define to empty if the keyword does not work.  */
-#undef const
-
-/* Define if you have <sys/wait.h> that is POSIX.1 compatible.  */
-#undef HAVE_SYS_WAIT_H
-
-/* Define to `int' if <sys/types.h> doesn't define.  */
-#undef pid_t
-
-/* Define to `unsigned' if <sys/types.h> doesn't define.  */
-#undef size_t
-
-/* Define if you have the ANSI C header files.  */
-#undef STDC_HEADERS
-
-/* Define if your processor stores words with the most significant
-   byte first (like Motorola and SPARC, unlike Intel and VAX).  */
-#undef WORDS_BIGENDIAN
+/* ========== Features selected */
 
 /* Define if your system supports binary pipes (i.e. Unix) */
 #undef DRV_PIPE
@@ -46,10 +28,10 @@
 #undef DRV_HP
 /* Define if the Network Audio System driver is compiled */
 #undef DRV_NAS
-/* Define if the driver for no sound is compiled */
-#undef DRV_NOS
 /* Define if the Open Sound System driver is compiled */
 #undef DRV_OSS
+/* Define if the OS/2 driver is compiled */
+#undef DRV_OS2
 /* Define if the Linux SAM9407 driver is compiled */
 #undef DRV_SAM9407
 /* Define if the SGI audio driver is compiled */
@@ -63,19 +45,18 @@
 #undef DRV_OSX
 /* Define this if you want the Carbon Mac Audio driver */
 #undef DRV_MAC
-/* Define this if you want the gp32 audio driver */
-#undef DRV_GP32
-/* Define this if you want the driver for output to a file called MUSIC.WAV */
-#undef DRV_WAV
-/* Define this if you want the driver for raw output to process stdout */
-#undef DRV_STDOUT
-
+/* Define this if you want the DOS WSS driver */
+#undef DRV_WSS
+/* Define this if you want the no-sound (null) driver */
+#undef DRV_NOS
 /* Define if you want a debug version of the library */
 #undef MIKMOD_DEBUG
 /* Define if you want runtime dynamic linking of ALSA and EsounD drivers */
 #undef MIKMOD_DYNAMIC
 /* Define if your system provides POSIX.4 threads */
 #undef HAVE_PTHREAD
+
+/* ========== Build environment information */
 
 /* Define if your system is SunOS 4.* */
 #undef SUNOS
@@ -94,108 +75,278 @@
 /* define this if you are running a bigendian system (motorola, sparc, etc) */
 #undef WORDS_BIGENDIAN
 
-/* Define if you have the setenv function.  */
-#undef HAVE_SETENV
+/* Module Loaders*/
+#undef LDR_669
 
-/* Define if you have the snprintf function.  */
-#undef HAVE_SNPRINTF
+#undef LDR_AMF
 
-/* Define if you have the srandom function.  */
-#undef HAVE_SRANDOM
+#undef LDR_ASY
 
-/* Define if you have the strcasecmp function.  */
-#undef HAVE_STRCASECMP
+#undef LDR_DSM
 
-/* Define if you have the strdup function.  */
-#undef HAVE_STRDUP
+#undef LDR_FAR
 
-/* Define if you have the strstr function.  */
-#undef HAVE_STRSTR
+#undef LDR_GDM
 
-/* Define if you have the <AF/AFlib.h> header file.  */
+#undef LDR_GT2
+
+#undef LDR_IT
+
+#undef LDR_IMF
+
+#undef LDR_MOD
+
+#undef LDR_MED
+
+#undef LDR_MTM
+
+#undef LDR_OKT
+
+#undef LDR_S3M
+
+#undef LDR_STM
+
+#undef LDR_STX
+
+#undef LDR_ULT
+
+#undef LDR_UNI
+
+#undef LDR_XM
+
+#undef LDR_M15
+
+
+/* Define if building universal (internal helper macro) */
+#undef AC_APPLE_UNIVERSAL_BUILD
+
+/* Define to 1 if you have the <AF/AFlib.h> header file. */
 #undef HAVE_AF_AFLIB_H
 
-/* Define if you have the <audio/audiolib.h> header file.  */
+/* Define to 1 if you have the <alsa/asoundlib.h> header file. */
+#undef HAVE_ALSA_ASOUNDLIB_H
+
+/* Define to 1 if you have the <audio/audiolib.h> header file. */
 #undef HAVE_AUDIO_AUDIOLIB_H
 
-/* Define if you have the <dl.h> header file.  */
-#undef HAVE_DL_H
+/* Define to 1 if you have the `clock_gettime' function. */
+#undef HAVE_CLOCK_GETTIME
 
-/* Define if you have the <dlfcn.h> header file.  */
+/* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define if you have the <dmedia/audio.h> header file.  */
+/* Define to 1 if you have the <dl.h> header file. */
+#undef HAVE_DL_H
+
+/* Define to 1 if you have the <dmedia/audio.h> header file. */
 #undef HAVE_DMEDIA_AUDIO_H
 
-/* Define if you have the <fcntl.h> header file.  */
+/* Define to 1 if you have the `dup2' function. */
+#undef HAVE_DUP2
+
+/* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
-/* Define if you have the <libgus.h> header file.  */
+/* Define to 1 if you have the <float.h> header file. */
+#undef HAVE_FLOAT_H
+
+/* Define to 1 if you have the `floor' function. */
+#undef HAVE_FLOOR
+
+/* Define to 1 if you have the `fork' function. */
+#undef HAVE_FORK
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <libgus.h> header file. */
 #undef HAVE_LIBGUS_H
 
-/* Define if you have the <machine/soundcard.h> header file.  */
+/* Define to 1 if you have the <machine/soundcard.h> header file. */
 #undef HAVE_MACHINE_SOUNDCARD_H
 
-/* Define if you have the <malloc.h> header file.  */
+/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+   to 0 otherwise. */
+#undef HAVE_MALLOC
+
+/* Define to 1 if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
-/* Define if you have the <memory.h> header file.  */
+/* Define to 1 if you have the `memmove' function. */
+#undef HAVE_MEMMOVE
+
+/* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
-/* Define if you have the <strings.h> header file.  */
+/* Define to 1 if you have the `memset' function. */
+#undef HAVE_MEMSET
+
+/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+   and to 0 otherwise. */
+#undef HAVE_REALLOC
+
+/* Define to 1 if you have the `select' function. */
+#undef HAVE_SELECT
+
+/* Define to 1 if you have the `setenv' function. */
+#undef HAVE_SETENV
+
+/* Define to 1 if you have the `snprintf' function. */
+#undef HAVE_SNPRINTF
+
+/* Define to 1 if you have the `srandom' function. */
+#undef HAVE_SRANDOM
+
+/* Define to 1 if stdbool.h conforms to C99. */
+#undef HAVE_STDBOOL_H
+
+/* Define to 1 if you have the <stddef.h> header file. */
+#undef HAVE_STDDEF_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strdup' function. */
+#undef HAVE_STRDUP
+
+/* Define to 1 if you have the `strerror' function. */
+#undef HAVE_STRERROR
+
+/* Define to 1 if you have the <strings.h> header file. */
 #undef HAVE_STRINGS_H
 
-/* Define if you have the <sun/audioio.h> header file.  */
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strstr' function. */
+#undef HAVE_STRSTR
+
+/* Define to 1 if you have the `strtol' function. */
+#undef HAVE_STRTOL
+
+/* Define to 1 if you have the <sun/audioio.h> header file. */
 #undef HAVE_SUN_AUDIOIO_H
 
-/* Define if you have the <sys/acpa.h> header file.  */
+/* Define to 1 if you have the <sys/acpa.h> header file. */
 #undef HAVE_SYS_ACPA_H
 
-/* Define if you have the <sys/asoundlib.h> header file.  */
+/* Define to 1 if you have the <sys/asoundlib.h> header file. */
 #undef HAVE_SYS_ASOUNDLIB_H
 
-/* Define if you have the <sys/audio.h> header file.  */
-#undef HAVE_SYS_AUDIO_H
-
-/* Define if you have the <sys/audioio.h> header file.  */
+/* Define to 1 if you have the <sys/audioio.h> header file. */
 #undef HAVE_SYS_AUDIOIO_H
 
-/* Define if you have the <sys/ioctl.h> header file.  */
+/* Define to 1 if you have the <sys/audio.h> header file. */
+#undef HAVE_SYS_AUDIO_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
 #undef HAVE_SYS_IOCTL_H
 
-/* Define if you have the <sys/sam9407.h> header file.  */
+/* Define to 1 if you have the <sys/sam9407.h> header file. */
 #undef HAVE_SYS_SAM9407_H
 
-/* Define if you have the <sys/soundcard.h> header file.  */
+/* Define to 1 if you have the <sys/soundcard.h> header file. */
 #undef HAVE_SYS_SOUNDCARD_H
 
-/* Define if you have the <unistd.h> header file.  */
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
+#undef HAVE_SYS_WAIT_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `vfork' function. */
+#undef HAVE_VFORK
+
+/* Define to 1 if you have the <vfork.h> header file. */
+#undef HAVE_VFORK_H
+
+/* Define to 1 if `fork' works. */
+#undef HAVE_WORKING_FORK
+
+/* Define to 1 if `vfork' works. */
+#undef HAVE_WORKING_VFORK
+
+/* Define to 1 if the system has the type `_Bool'. */
+#undef HAVE__BOOL
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
 
 /* Name of package */
 #undef PACKAGE
 
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
 /* Version number of package */
 #undef VERSION
 
-/* Module Loaders*/
-#undef LDR_669
-#undef LDR_AMF
-#undef LDR_ASY
-#undef LDR_DSM
-#undef LDR_FAR
-#undef LDR_GDM
-#undef LDR_GT2
-#undef LDR_IT
-#undef LDR_IMF
-#undef LDR_MOD
-#undef LDR_MED
-#undef LDR_MTM
-#undef LDR_OKT
-#undef LDR_S3M
-#undef LDR_STM
-#undef LDR_STX
-#undef LDR_ULT
-#undef LDR_UNI
-#undef LDR_XM
-#undef LDR_M15
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+   significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+#  undef WORDS_BIGENDIAN
+# endif
+#endif
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to rpl_malloc if the replacement function should be used. */
+#undef malloc
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef pid_t
+
+/* Define to rpl_realloc if the replacement function should be used. */
+#undef realloc
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef ssize_t
+
+/* Define as `fork' if `vfork' does not work. */
+#undef vfork

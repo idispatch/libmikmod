@@ -3117,6 +3117,10 @@ This driver only supports software mixing.
 @item drv_osx
 This driver is available under MacOS X and Darwin, and uses the ``CoreAudio'' interface.@*
 This driver only supports software mixing.
+@item drv_qnx
+This driver is only available under QNX, and requires the QNX/QSA (ALSA) driver.@*
+This driver only supports software mixing, but a future version of the driver
+might be able to use the hardware capabilities of some sound cards.
 @item drv_sam9407
 This driver is only available under Linux, and requires the Linux sam9407
 driver to be compiled for your current kernel.@*

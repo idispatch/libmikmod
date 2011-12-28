@@ -370,20 +370,20 @@ void Sample_Free_internal(SAMPLE *si)
 
 static void extract_channel(const char *src, char *dst, int num_chan, int num_samples, int samp_size, int channel)
 {
-#ifdef MIKMOD_DEBUG
 	int i;
+#ifdef MIKMOD_DEBUG
 	printf("Extract channel: %p %p, num_chan=%d, num_samples=%d, samp_size=%d, channel=%d\n",
 			src,dst,num_chan,num_samples,samp_size,channel);	
 #endif
 	src += channel * samp_size;	
 	
 	while (num_samples--)
-	{		
+	{
 		for (i=0; i<samp_size; i++) {
 			dst[i] = src[i];
 		}
 		src += samp_size * num_chan;
-		dst += samp_size;	
+		dst += samp_size;
 	}
 }
 

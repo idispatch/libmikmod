@@ -18,6 +18,12 @@
 	02111-1307, USA.
 */
 
+/*==============================================================================
+
+  MikMod sound library include file
+
+==============================================================================*/
+
 #ifndef _MIKMOD_H_
 #define _MIKMOD_H_
 
@@ -575,10 +581,7 @@ MIKMODAPI extern void    Player_Mute(SLONG,...);
 MIKMODAPI extern void    Player_ToggleMute(SLONG,...);
 MIKMODAPI extern int     Player_GetChannelVoice(UBYTE);
 MIKMODAPI extern UWORD   Player_GetChannelPeriod(UBYTE);
-MIKMODAPI extern int     Player_QueryVoices(UWORD numvoices, VOICEINFO *vinfo);
-MIKMODAPI extern int     Player_GetRow(void);
-MIKMODAPI extern int     Player_GetOrder(void); 
-
+MIKMODAPI extern int     Player_QueryVoices(UWORD numvoices, VOICEINFO *vinfo); 
 
 typedef void (MikMod_player)(void);
 typedef MikMod_player *MikMod_player_t;

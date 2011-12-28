@@ -5,6 +5,7 @@ bindir = @bindir@
 sbindir = @sbindir@
 libexecdir = @libexecdir@
 datadir = @datadir@
+datarootdir = @datarootdir@
 sysconfdir = @sysconfdir@
 sharedstatedir = @sharedstatedir@
 localstatedir = @localstatedir@
@@ -34,7 +35,7 @@ COMPILE=$(LIBTOOL) --silent --mode=compile $(CC) $(DEFS) $(CFLAGS) -I$(top_srcdi
 
 LIB = libmikmod.la
 OBJ = $(LIBOBJS) $(DLOBJS) \
-      drv_AF.lo drv_aiff.lo drv_aix.lo drv_alsa.lo drv_esd.lo drv_hp.lo drv_nos.lo \
+      drv_AF.lo drv_aiff.lo drv_aix.lo drv_alsa.lo drv_qnx.lo drv_esd.lo drv_hp.lo drv_nos.lo \
       drv_oss.lo drv_osx.lo drv_mac.lo drv_nas.lo drv_pipe.lo drv_raw.lo drv_sam9407.lo drv_sgi.lo \
       drv_stdout.lo drv_sun.lo drv_ultra.lo drv_wav.lo \
       load_669.lo load_amf.lo load_asy.lo load_dsm.lo load_far.lo \
@@ -91,6 +92,9 @@ drv_aix.lo:	$(top_srcdir)/drivers/drv_aix.c \
 drv_alsa.lo:	$(top_srcdir)/drivers/drv_alsa.c \
 			$(top_builddir)/include/mikmod.h $(top_srcdir)/include/mikmod_internals.h
 	$(COMPILE) -c $(top_srcdir)/drivers/drv_alsa.c
+drv_qnx.lo:	$(top_srcdir)/drivers/drv_qnx.c \
+			$(top_builddir)/include/mikmod.h $(top_srcdir)/include/mikmod_internals.h
+	$(COMPILE) -c $(top_srcdir)/drivers/drv_qnx.c
 drv_esd.lo:	$(top_srcdir)/drivers/drv_esd.c \
 			$(top_builddir)/include/mikmod.h $(top_srcdir)/include/mikmod_internals.h
 	$(COMPILE) -c $(top_srcdir)/drivers/drv_esd.c

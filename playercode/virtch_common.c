@@ -454,7 +454,7 @@ ULONG VC1_VoiceRealVolume(UBYTE voice)
 
 #endif
 
-MikMod_callback_t vc_callback;
+extern MikMod_callback_t vc_callback;
 
 #endif
 

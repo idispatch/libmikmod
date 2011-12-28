@@ -40,13 +40,16 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(srcdir)/libmikmod-config.in $(srcdir)/libmikmod.spec.in \
 	$(top_srcdir)/configure $(top_srcdir)/libmikmod/Makefile.in \
-	$(top_srcdir)/macosx/Info.plist.in \
-	$(top_srcdir)/macosx/InfoPlist.strings.in \
+	$(top_srcdir)/macosx/Info-Carbon_Framework.plist.in \
+	$(top_srcdir)/macosx/Info-CoreAudio_Framework.plist.in \
 	$(top_srcdir)/macosx/mikmod.h.in AUTHORS COPYING.LESSER \
 	COPYING.LIB INSTALL NEWS TODO acconfig.h config.guess \
 	config.sub install-sh ltconfig ltmain.sh missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.in
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -54,8 +57,9 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = libmikmod-config libmikmod.spec \
-	libmikmod/Makefile macosx/mikmod.h macosx/Info.plist \
-	macosx/InfoPlist.strings
+	libmikmod/Makefile macosx/mikmod.h \
+	macosx/Info-Carbon_Framework.plist \
+	macosx/Info-CoreAudio_Framework.plist
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -269,6 +273,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
+ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = drivers include libmikmod loaders mmio playercode \
           docs dlapi macintosh posix os2 dos win32
 
@@ -341,9 +346,9 @@ libmikmod/Makefile: $(top_builddir)/config.status $(top_srcdir)/libmikmod/Makefi
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 macosx/mikmod.h: $(top_builddir)/config.status $(top_srcdir)/macosx/mikmod.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-macosx/Info.plist: $(top_builddir)/config.status $(top_srcdir)/macosx/Info.plist.in
+macosx/Info-Carbon_Framework.plist: $(top_builddir)/config.status $(top_srcdir)/macosx/Info-Carbon_Framework.plist.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-macosx/InfoPlist.strings: $(top_builddir)/config.status $(top_srcdir)/macosx/InfoPlist.strings.in
+macosx/Info-CoreAudio_Framework.plist: $(top_builddir)/config.status $(top_srcdir)/macosx/Info-CoreAudio_Framework.plist.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
