@@ -308,9 +308,4 @@ MIKMODAPI MDRIVER drv_dart = {
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_dart);
 #endif
-#endif
-

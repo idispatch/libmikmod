@@ -114,7 +114,7 @@
 								<inputType id="com.qnx.qcc.inputType.compiler.1062563482" superClass="com.qnx.qcc.inputType.compiler"/>
 							</tool>
 							<tool id="com.qnx.qcc.tool.assembler.755056134" name="QCC Assembler" superClass="com.qnx.qcc.tool.assembler">
-								<option id="com.qnx.qcc.option.assembler.defines.1048980176" name="Defines (-D)" superClass="com.qnx.qcc.option.assembler.defines" valueType="definedSymbols"/>
+								<option id="com.qnx.qcc.option.assembler.defines.1048980176" name="Defines (-D)" superClass="com.qnx.qcc.option.assembler.defines"/>
 								<option id="com.qnx.qcc.option.assembler.warningLevel.1102560086" name="Warning Level (-w)" superClass="com.qnx.qcc.option.assembler.warningLevel" value="com.qnx.qcc.option.warningLevel.4" valueType="enumerated"/>
 								<inputType id="com.qnx.qcc.inputType.assembler.1595308719" superClass="com.qnx.qcc.inputType.assembler"/>
 							</tool>

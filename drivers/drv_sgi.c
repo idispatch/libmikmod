@@ -218,9 +218,4 @@ MIKMODAPI MDRIVER drv_sgi={
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_sgi);
 #endif
-#endif
-

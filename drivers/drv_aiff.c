@@ -368,10 +368,6 @@ MIKMODAPI MDRIVER drv_aiff = {
     VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_aiff);
-#endif
 #endif
 
 /*____________________________________________________________________________________________________eOF

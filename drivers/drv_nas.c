@@ -434,10 +434,6 @@ MIKMODAPI MDRIVER drv_nas = {
   VC_VoiceRealVolume            /* VoiceRealVolume */
 };
 
-#else /* DRV_NAS */
-#if 0
-MISSING(drv_nas);
-#endif
 #endif /* DRV_NAS */
 
 /*** Emacs stuff */

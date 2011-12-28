@@ -197,9 +197,4 @@ MIKMODAPI MDRIVER drv_aix={
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_aix);
 #endif
-#endif
-

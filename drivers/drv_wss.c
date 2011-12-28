@@ -207,9 +207,4 @@ MIKMODAPI MDRIVER drv_wss =
 	VC_VoiceRealVolume
 };
 
-#else /* ifdef DRV_WSS */
-#if 0
-MISSING(drv_wss);
 #endif
-#endif
-

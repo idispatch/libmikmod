@@ -56,8 +56,8 @@ static void _mm_registeralldrivers(void)
 #if DRV_ALSA
 	_mm_registerdriver(&drv_alsa);
 #endif
-#if DRV_QSA
-	_mm_registerdriver(&drv_qsa);
+#if DRV_QNX
+	_mm_registerdriver(&drv_qnx);
 #endif
 #if DRV_HP
 	_mm_registerdriver(&drv_hp);

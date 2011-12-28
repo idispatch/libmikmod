@@ -881,10 +881,4 @@ MIKMODAPI MDRIVER drv_osx={
         VC_VoiceRealVolume
 };
 
-//____________________________________________________________________________________________________EOF
-
-#else
-#if 0
-MISSING(drv_osx);
-#endif
 #endif /* DRV_OSX */

@@ -460,9 +460,4 @@ MIKMODAPI MDRIVER drv_alsa={
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_alsa);
 #endif
-#endif
-

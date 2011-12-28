@@ -20,7 +20,9 @@
 
 /*==============================================================================
 
- Driver for QNX Sound Architecture (QSA)
+ Driver for QNX Sound Architecture
+
+ Written by Oleg Kosenkov <oleg@kosenkov.ca>
 
  ==============================================================================*/
 
@@ -30,7 +32,7 @@
 
 #include "mikmod_internals.h"
 
-#ifdef DRV_QSA
+#ifdef DRV_QNX
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -38,11 +40,15 @@
 #ifdef HAVE_MEMORY_H
 #include <memory.h>
 #endif
+
+#if QNX_MIKMOD_PLAY_THREAD
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #endif
-
 #include <sys/select.h>
+#include <signal.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -54,7 +60,7 @@
 #define DEFAULT_NUMFRAGS 8
 
 #ifdef MIKMOD_DEBUG
-//#define QNX_MIKMOD_PROFILING
+#undef QNX_MIKMOD_PROFILING
 #endif
 
 #ifdef QNX_MIKMOD_PROFILING
@@ -67,6 +73,7 @@ static int fragmentsize, numfrags = DEFAULT_NUMFRAGS;
 static SBYTE *audiobuffer = NULL;
 #if QNX_MIKMOD_PLAY_THREAD
 static int pcm_fd = 0;
+static volatile int player_thread_stop_requested = 0;
 static pthread_t player_thread;
 #endif
 static int num_devices;
@@ -83,7 +90,7 @@ static stat_type dbg_time_write[STATS_COUNT];
 static stat_type dbg_time_status[STATS_COUNT];
 static stat_type dbg_time_prepare[STATS_COUNT];
 
-static void dbg_stats(stat_type data[],
+static void dbg_calc_stats(stat_type data[],
 						unsigned int size,
 						stat_type *pmini,
 						stat_type *pmaxi,
@@ -102,39 +109,39 @@ static void dbg_stats(stat_type data[],
 	*pavg = avg / (stat_type)size;
 }
 
-static void prn_stats() {
+static void dbg_print_stats() {
 	if((dbg_num_writes % STATS_COUNT) == STATS_COUNT-1){
-		dbg_stats(dbg_time_mixing,
+		dbg_calc_stats(dbg_time_mixing,
 				STATS_COUNT,
 				&dbg_time_mixing[0],
 				&dbg_time_mixing[1],
 				&dbg_time_mixing[2],
 				&dbg_time_mixing[3]);
-		dbg_stats(dbg_time_select,
+		dbg_calc_stats(dbg_time_select,
 				STATS_COUNT,
 				&dbg_time_select[0],
 				&dbg_time_select[1],
 				&dbg_time_select[2],
 				&dbg_time_select[3]);
-		dbg_stats(dbg_time_write,
+		dbg_calc_stats(dbg_time_write,
 				STATS_COUNT,
 				&dbg_time_write[0],
 				&dbg_time_write[1],
 				&dbg_time_write[2],
 				&dbg_time_write[3]);
-		dbg_stats(dbg_time_status,
+		dbg_calc_stats(dbg_time_status,
 				STATS_COUNT,
 				&dbg_time_status[0],
 				&dbg_time_status[1],
 				&dbg_time_status[2],
 				&dbg_time_status[3]);
-		dbg_stats(dbg_time_status,
+		dbg_calc_stats(dbg_time_status,
 				STATS_COUNT,
 				&dbg_time_status[0],
 				&dbg_time_status[1],
 				&dbg_time_status[2],
 				&dbg_time_status[3]);
-		dbg_stats(dbg_time_prepare,
+		dbg_calc_stats(dbg_time_prepare,
 				STATS_COUNT,
 				&dbg_time_prepare[0],
 				&dbg_time_prepare[1],
@@ -191,12 +198,12 @@ static stat_type diff(struct timespec start, struct timespec end)
 }
 #endif
 
-static void qsa_update(void);
+static void qnx_update(void);
 #if QNX_MIKMOD_PLAY_THREAD
-static void* player_thread_function(void* data);
+static void* qnx_player_thread_function(void* data);
 #endif
 
-static void qsa_command_line(CHAR *cmdline) {
+static void qnx_command_line(CHAR *cmdline) {
 	CHAR *ptr;
 
 	if ((ptr = MD_GetAtom("buffer", cmdline, 0))) {
@@ -210,7 +217,7 @@ static void qsa_command_line(CHAR *cmdline) {
 	}
 }
 
-static BOOL qsa_is_there(void) {
+static BOOL qnx_is_there(void) {
 	int ret_val;
 	int *cards = NULL, *devices  = NULL;
 	ret_val = num_devices = 8; /* start with eight */
@@ -231,7 +238,7 @@ static BOOL qsa_is_there(void) {
 	return ret_val > 0 && num_devices > 0;
 }
 
-static BOOL qsa_init_impl(void) {
+static BOOL qnx_init_impl(void) {
 	int err;
 	int bps;
 	int size;
@@ -241,8 +248,8 @@ static BOOL qsa_init_impl(void) {
 	snd_pcm_channel_params_t	channel_params;
 	snd_pcm_channel_setup_t 	channel_setup;
 
-	_mm_errno = MMERR_OPENING_AUDIO;
 	if(num_devices == 0) {
+		_mm_errno = MMERR_DETECTING_DEVICE;
 		return 1;
 	}
 
@@ -270,6 +277,8 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_open_preferred: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_OPENING_AUDIO;
+		return 1;
 	} else {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_open_preferred: success [card:%d, device:%d]\n", card, device);
@@ -287,6 +296,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_ctl_pcm_channel_info: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_OPENING_AUDIO;
 		return 1;
 	}
 #if MIKMOD_DEBUG
@@ -311,6 +321,7 @@ static BOOL qsa_init_impl(void) {
 		channel_info.max_rate < pcm_format.rate ||
 		channel_info.max_voices < pcm_format.voices ||
 		!(channel_info.formats & (1 << pcm_format.format))) {
+		_mm_errno = MMERR_INVALID_DEVICE;
 		return 1;
 	}
 
@@ -321,6 +332,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_set_disable: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_INVALID_DEVICE;
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -331,6 +343,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_set_disable: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_INVALID_DEVICE;
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -357,6 +370,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_params: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_INVALID_DEVICE;
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -367,6 +381,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_prepare: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_INVALID_DEVICE;
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -381,6 +396,7 @@ static BOOL qsa_init_impl(void) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "snd_pcm_plugin_setup: %s\n", snd_strerror(err));
 #endif
+		_mm_errno = MMERR_INVALID_DEVICE;
 		snd_pcm_close(playback_handle);
 		playback_handle = NULL;
 		return 1;
@@ -397,18 +413,27 @@ static BOOL qsa_init_impl(void) {
 	return err;
 }
 
-static BOOL qsa_init(void) {
-	return qsa_init_impl();
+static BOOL qnx_init(void) {
+	return qnx_init_impl();
 }
 
 #ifdef QNX_MIKMOD_PLAY_THREAD
-static void* player_thread_function(void* data) {
+static void* qnx_player_thread_function(void* data) {
 	int err;
+	sigset_t sigset;
 	fd_set wset;
+	pthread_setname_np(0, "MikMod player");
+	sigemptyset(&sigset);
+	sigaddset(&sigset, SIGINT);
+	if((err = pthread_sigmask(SIG_BLOCK, &sigset, NULL)) != EOK) {
+#if MIKMOD_DEBUG
+		fprintf(stderr, "pthread_sigmask: %s\n", strerror(err));
+#endif
+	}
 #ifdef QNX_MIKMOD_PROFILING
 	struct timespec select_start, select_end;
 #endif
-	while(1){
+	while(!player_thread_stop_requested) {
 		FD_ZERO(&wset);
 		FD_SET(pcm_fd, &wset);
 #ifdef QNX_MIKMOD_PROFILING
@@ -419,26 +444,30 @@ static void* player_thread_function(void* data) {
 		clock_gettime(CLOCK_MONOTONIC, &select_end);
 		dbg_time_select[dbg_num_writes % STATS_COUNT] = diff(select_start, select_end);
 #endif
-		if(err == -1){
+		if(err == -1) {
+			if(errno == EINTR) {
+				break;
+			} else {
 #if MIKMOD_DEBUG
 			fprintf(stderr, "select: %s\n", strerror(err));
 #endif
+			}
 		} else if FD_ISSET(pcm_fd, &wset) {
-			qsa_update();
+			qnx_update();
 		} else {
 #if MIKMOD_DEBUG
-			fprintf(stderr, "select: unexpected return %d\n", err);
+			fprintf(stderr, "select: unexpected return %d, pcm fd is not ready for write\n", err);
 #endif
 		}
 #ifdef QNX_MIKMOD_PROFILING
-		prn_stats();
+		dbg_print_stats();
 #endif
 	}
 	return 0;
 }
 #endif
 
-static void qsa_exit_impl(void) {
+static void qnx_exit_impl(void) {
 	VC_Exit();
 	if (playback_handle) {
 		snd_pcm_playback_drain(playback_handle);
@@ -446,6 +475,8 @@ static void qsa_exit_impl(void) {
 		playback_handle = NULL;
 	}
 #if QNX_MIKMOD_PLAY_THREAD
+	player_thread_stop_requested = 1;
+	pthread_kill(player_thread, SIGINT);
 	pthread_join(player_thread, NULL);
 	pcm_fd = 0;
 #endif
@@ -454,15 +485,15 @@ static void qsa_exit_impl(void) {
 	num_devices = 0;
 }
 
-static void qsa_exit(void) {
-	qsa_exit_impl();
+static void qnx_exit(void) {
+	qnx_exit_impl();
 }
 
 #ifdef QNX_MIKMOD_PLAY_THREAD
-static void qsa_update_dummy(void){}
+static void qnx_update_dummy(void){}
 #endif
 
-static void qsa_update(void) {
+static void qnx_update(void) {
 	int err;
 	snd_pcm_channel_status_t status;
 #ifdef QNX_MIKMOD_PROFILING
@@ -539,20 +570,21 @@ static void qsa_update(void) {
 	}
 }
 
-static void qsa_play_stop(void) {
+static void qnx_play_stop(void) {
 	snd_pcm_playback_flush(playback_handle);
 	VC_PlayStop();
 }
 
-static BOOL qsa_reset(void) {
-	qsa_exit_impl();
-	return qsa_init_impl();
+static BOOL qnx_reset(void) {
+	qnx_exit_impl();
+	return qnx_init_impl();
 }
 
-static BOOL qsa_play_start(void){
+static BOOL qnx_play_start(void){
 #ifdef QNX_MIKMOD_PLAY_THREAD
 	int err;
-	if((err = pthread_create(&player_thread, NULL, player_thread_function, NULL)) != EOK) {
+	player_thread_stop_requested = 0;
+	if((err = pthread_create(&player_thread, NULL, qnx_player_thread_function, NULL)) != EOK) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "pthread_create: %s\n", strerror(err));
 #endif
@@ -562,30 +594,30 @@ static BOOL qsa_play_start(void){
 	return VC_PlayStart();
 }
 
-MIKMODAPI MDRIVER drv_qsa = {
+MIKMODAPI MDRIVER drv_qnx = {
 	NULL,
-	"QSA",
-	"QNX Sound Architecture (QSA) driver v1.0",
+	"QNX",
+	"QNX Sound Architecture driver v1.0",
 	0,
 	255,
-	"qsa",
+	"qnx",
 	"buffer:r:2,16,4:Number of buffer fragments\n",
-	qsa_command_line,
-	qsa_is_there,
+	qnx_command_line,
+	qnx_is_there,
 	VC_SampleLoad,
 	VC_SampleUnload,
 	VC_SampleSpace,
 	VC_SampleLength,
-	qsa_init,
-	qsa_exit,
-	qsa_reset,
+	qnx_init,
+	qnx_exit,
+	qnx_reset,
 	VC_SetNumVoices,
-	qsa_play_start,
-	qsa_play_stop,
+	qnx_play_start,
+	qnx_play_stop,
 #if QNX_MIKMOD_PLAY_THREAD
-	qsa_update_dummy,
+	qnx_update_dummy,
 #else
-	qsa_update,
+	qnx_update,
 #endif
 	NULL,
 	VC_VoiceSetVolume,
@@ -601,9 +633,4 @@ MIKMODAPI MDRIVER drv_qsa = {
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_qsa);
 #endif
-#endif
-

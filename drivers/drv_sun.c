@@ -505,9 +505,4 @@ MIKMODAPI MDRIVER drv_sun = {
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_sun);
 #endif
-#endif
-

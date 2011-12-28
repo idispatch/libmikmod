@@ -391,9 +391,4 @@ MIKMODAPI MDRIVER drv_oss={
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_oss);
 #endif
-#endif
-

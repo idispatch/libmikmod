@@ -751,7 +751,7 @@ enable_option_checking
 enable_maintainer_mode
 enable_af
 enable_alsa
-enable_qsa
+enable_qnx
 enable_esd
 enable_nas
 enable_oss
@@ -1434,7 +1434,7 @@ Optional Features:
   --enable-af             include AudioFile driver guessed
   --enable-alsa           Linux only: include Advanced Linux Sound Architecture
                           driver guessed
-  --enable-qsa            QNX only: include QNX Sound Architecture
+  --enable-qnx            QNX only: include QNX Sound Architecture
                           driver guessed
   --enable-esd            include Enlightened sound daemon driver guessed
   --enable-nas            include the Network Audio System driver default=no
@@ -3016,7 +3016,7 @@ fi
 libmikmod_driver_af=yes
 libmikmod_driver_aix=no
 libmikmod_driver_alsa=yes
-libmikmod_driver_qsa=no
+libmikmod_driver_qnx=no
 libmikmod_driver_esd=yes
 libmikmod_driver_nas=no
 libmikmod_driver_hp=no
@@ -3084,13 +3084,13 @@ fi
 fi
 
 
-# Check whether --enable-qsa was given.
-if test "${enable_qsa+set}" = set; then :
-  enableval=$enable_qsa; if test "$enableval" = "yes"
+# Check whether --enable-qnx was given.
+if test "${enable_qnx+set}" = set; then :
+  enableval=$enable_qnx; if test "$enableval" = "yes"
 then
-  libmikmod_driver_qsa=yes
+  libmikmod_driver_qnx=yes
 else
-  libmikmod_driver_qsa=no
+  libmikmod_driver_qnx=no
 fi
 fi
 
@@ -16319,11 +16319,11 @@ else
 	libmikmod_driver_alsa=no
 fi
 
-# QSA - QNX only
+# QNX - QNX only
 # -----------------
-if test "`uname`" = "QNX" && test $libmikmod_driver_qsa = yes
+if test "`uname`" = "QNX" && test $libmikmod_driver_qnx = yes
 then
-	libmikmod_driver_qsa=no
+	libmikmod_driver_qnx=no
 	for ac_header in sys/asoundlib.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "sys/asoundlib.h" "ac_cv_header_sys_asoundlib_h" "$ac_includes_default"
@@ -16375,12 +16375,12 @@ fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_asound_snd_pcm_open" >&5
 $as_echo "$ac_cv_lib_asound_snd_pcm_open" >&6; }
 if test "x$ac_cv_lib_asound_snd_pcm_open" = xyes; then :
-  libmikmod_driver_qsa=yes
+  libmikmod_driver_qnx=yes
 fi
 
 	fi
 else
-	libmikmod_driver_qsa=no
+	libmikmod_driver_qnx=no
 fi
 
 # esd
@@ -18059,8 +18059,8 @@ done
 
 		if test $ac_cv_header_sys_asoundlib_h = yes
 		then
-			libmikmod_driver_qsa=yes
-			$as_echo "#define DRV_QSA 1" >>confdefs.h
+			libmikmod_driver_qnx=yes
+			$as_echo "#define DRV_QNX 1" >>confdefs.h
 
 		fi
 	;;
@@ -18108,10 +18108,10 @@ then
 	fi
 fi
 
-if test $libmikmod_driver_qsa = yes
+if test $libmikmod_driver_qnx = yes
 then
-	libmikmod_driverlist="qsa $libmikmod_driverlist"
- 	$as_echo "#define DRV_QSA 1" >>confdefs.h
+	libmikmod_driverlist="qnx $libmikmod_driverlist"
+ 	$as_echo "#define DRV_QNX 1" >>confdefs.h
 
 	if test $libmikmod_dynload = no
 	then

@@ -20,7 +20,6 @@
 
 /*==============================================================================
 
-
   Driver for SoundBlaster/Pro/16/AWE32 under DOS
 
 ==============================================================================*/
@@ -225,9 +224,4 @@ MIKMODAPI MDRIVER drv_sb =
 	VC_VoiceRealVolume
 };
 
-#else // DRV_SB
-#if 0
-MISSING(drv_sb);
 #endif
-#endif
-

@@ -34,7 +34,7 @@
 /* Define if the Linux ALSA driver is compiled */
 /* #undef DRV_ALSA */
 /* Define if the QNX ALSA driver is compiled */
-#define DRV_QSA 1
+#define DRV_QNX 1
 /* Define if the driver for no output is compiled */
 /* #undef DRV_NOS */
 /* Define if the Enlightened Sound Daemon driver is compiled */

@@ -189,9 +189,4 @@ MIKMODAPI MDRIVER drv_gp32={
 	VC_VoiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_gp32);
 #endif
-#endif
-

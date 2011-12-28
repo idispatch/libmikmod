@@ -854,9 +854,4 @@ MIKMODAPI MDRIVER drv_ultra = {
 	Ultra_VoiceGetPosition,
 	Ultra_VoiceRealVolume
 };
-#else
-#if 0
-MISSING(drv_ultra);
-#endif
 #endif // DRV_ULTRA
-

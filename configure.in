@@ -34,7 +34,7 @@ AM_MAINTAINER_MODE
 libmikmod_driver_af=yes
 libmikmod_driver_aix=no
 libmikmod_driver_alsa=yes
-libmikmod_driver_qsa=no
+libmikmod_driver_qnx=no
 libmikmod_driver_esd=yes
 libmikmod_driver_nos=yes
 libmikmod_driver_nas=no
@@ -100,14 +100,14 @@ else
   libmikmod_driver_alsa=no
 fi])
 
-AC_ARG_ENABLE(qsa,
-[  --enable-qsa            QNX only: include QNX Sound Architecture
+AC_ARG_ENABLE(qnx,
+[  --enable-qnx            QNX only: include QNX Sound Architecture
                           driver [guessed]],
 [if test "$enableval" = "yes"
 then
-  libmikmod_driver_qsa=yes
+  libmikmod_driver_qnx=yes
 else
-  libmikmod_driver_qsa=no
+  libmikmod_driver_qnx=no
 fi])
 
 AC_ARG_ENABLE(esd,
@@ -551,18 +551,18 @@ else
 	libmikmod_driver_alsa=no
 fi
 
-# QSA - QNX only
+# QNX - QNX only
 # -----------------
-if test "`uname`" = "QNX" && test $libmikmod_driver_qsa = yes
+if test "`uname`" = "QNX" && test $libmikmod_driver_qnx = yes
 then
-	libmikmod_driver_qsa=no
+	libmikmod_driver_qnx=no
 	AC_CHECK_HEADERS(sys/asoundlib.h)
 	if test $ac_cv_header_sys_asoundlib_h = yes
 	then
-		AC_CHECK_LIB(asound,snd_pcm_open,libmikmod_driver_qsa=yes)
+		AC_CHECK_LIB(asound,snd_pcm_open,libmikmod_driver_qnx=yes)
 	fi
 else
-	libmikmod_driver_qsa=no
+	libmikmod_driver_qnx=no
 fi
 
 # esd
@@ -768,12 +768,12 @@ case `uname` in
 		AC_CHECK_HEADERS(sys/asoundlib.h)
 		if test $ac_cv_header_sys_asoundlib_h = yes
 		then
-			libmikmod_driver_qsa=yes
+			libmikmod_driver_qnx=yes
 		fi
-		if test $libmikmod_driver_qsa = yes
+		if test $libmikmod_driver_qnx = yes
 		then
 			libmikmod_driverlist="qnx $libmikmod_driverlist"
-			AC_DEFINE(DRV_QSA)
+			AC_DEFINE(DRV_QNX)
 		fi
 	;;
 	Darwin)
@@ -815,10 +815,10 @@ then
 	fi
 fi
 
-if test $libmikmod_driver_qsa = yes
+if test $libmikmod_driver_qnx = yes
 then
-	libmikmod_driverlist="qsa $libmikmod_driverlist"
- 	AC_DEFINE(DRV_QSA)
+	libmikmod_driverlist="qnx $libmikmod_driverlist"
+ 	AC_DEFINE(DRV_QNX)
 	if test $libmikmod_dynload = no
 	then
  		LIBRARY_LIB="-lasound $LIBRARY_LIB"

@@ -527,10 +527,4 @@ MIKMODAPI MDRIVER drv_mac={
     VC_VoiceRealVolume
 };
 
-#else /* ifdef DRV_MAC */
-#if 0
-MISSING(drv_mac);
 #endif
-#endif
-
-

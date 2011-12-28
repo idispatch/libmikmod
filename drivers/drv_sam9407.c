@@ -506,9 +506,4 @@ MIKMODAPI MDRIVER drv_sam9407={
 	voiceRealVolume
 };
 
-#else
-#if 0
-MISSING(drv_sam9407);
 #endif
-#endif
-
