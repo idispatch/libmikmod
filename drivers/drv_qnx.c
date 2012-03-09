@@ -45,6 +45,7 @@
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #endif
+#include <atomic.h>
 #include <sys/select.h>
 #include <signal.h>
 #endif
@@ -73,7 +74,7 @@ static int fragmentsize, numfrags = DEFAULT_NUMFRAGS;
 static SBYTE *audiobuffer = NULL;
 #if QNX_MIKMOD_PLAY_THREAD
 static int pcm_fd = 0;
-static volatile int player_thread_stop_requested = 0;
+static volatile unsigned player_thread_stop_requested = 0;
 static pthread_t player_thread;
 #endif
 static int num_devices;
@@ -292,9 +293,9 @@ static BOOL qnx_init_impl(void) {
 	memset(&channel_info, 0, sizeof(channel_info));
 	channel_info.channel = SND_PCM_CHANNEL_PLAYBACK;
 	/* Get information about a PCM channel's capabilities from a control handle */
-	if ((err = snd_pcm_channel_info(playback_handle, &channel_info)) < 0) {
+	if ((err = snd_pcm_plugin_info(playback_handle, &channel_info)) < 0) {
 #if MIKMOD_DEBUG
-		fprintf(stderr, "snd_ctl_pcm_channel_info: %s\n", snd_strerror(err));
+		fprintf(stderr, "snd_ctl_pcm_plugin_info: %s\n", snd_strerror(err));
 #endif
 		_mm_errno = MMERR_OPENING_AUDIO;
 		return 1;
@@ -433,7 +434,7 @@ static void* qnx_player_thread_function(void* data) {
 #ifdef QNX_MIKMOD_PROFILING
 	struct timespec select_start, select_end;
 #endif
-	while(!player_thread_stop_requested) {
+	while(!atomic_add_value(&player_thread_stop_requested, 0)) {
 		FD_ZERO(&wset);
 		FD_SET(pcm_fd, &wset);
 #ifdef QNX_MIKMOD_PROFILING
@@ -475,7 +476,7 @@ static void qnx_exit_impl(void) {
 		playback_handle = NULL;
 	}
 #if QNX_MIKMOD_PLAY_THREAD
-	player_thread_stop_requested = 1;
+	atomic_set_value(&player_thread_stop_requested, 1);
 	pthread_kill(player_thread, SIGINT);
 	pthread_join(player_thread, NULL);
 	pcm_fd = 0;
@@ -583,7 +584,7 @@ static BOOL qnx_reset(void) {
 static BOOL qnx_play_start(void){
 #ifdef QNX_MIKMOD_PLAY_THREAD
 	int err;
-	player_thread_stop_requested = 0;
+	atomic_set_value(&player_thread_stop_requested, 0);
 	if((err = pthread_create(&player_thread, NULL, qnx_player_thread_function, NULL)) != EOK) {
 #if MIKMOD_DEBUG
 		fprintf(stderr, "pthread_create: %s\n", strerror(err));
