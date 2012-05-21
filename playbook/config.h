@@ -36,7 +36,7 @@
 /* Define if the QNX ALSA driver is compiled */
 #define DRV_QNX 1
 /* Define if the driver for no output is compiled */
-/* #undef DRV_NOS */
+#define DRV_NOS 1
 /* Define if the Enlightened Sound Daemon driver is compiled */
 /* #undef DRV_ESD */
 /* Define if the HP-UX audio driver is compiled */
